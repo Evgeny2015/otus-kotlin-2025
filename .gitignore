@@ -1,0 +1,13 @@
+/.gradle/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/**/build/
+
+### IntelliJ IDEA ###
+/.idea/
+
+### Kotlin ###
+/.kotlin/
+
+### VS Code ###
+.vscode/
