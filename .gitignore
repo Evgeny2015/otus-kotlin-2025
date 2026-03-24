@@ -1,4 +1,4 @@
-/.gradle/
+.gradle/
 **/build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/**/build/
@@ -12,3 +12,4 @@
 
 ### VS Code ###
 .vscode/
+

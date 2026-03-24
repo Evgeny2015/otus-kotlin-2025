@@ -3,18 +3,12 @@ pluginManagement {
     plugins {
         kotlin("jvm") version kotlinVersion
     }
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-    }
 }
 
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-rootProject.name = "otus-kotlin-2025"
+rootProject.name = "lessons"
 
-includeBuild("lessons")
-includeBuild("my-project-be")
-includeBuild("build-plugin")
+include("m1l1-first")
