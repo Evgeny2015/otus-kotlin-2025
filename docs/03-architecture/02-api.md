@@ -30,7 +30,7 @@
 1. CRUDS (create, read, update, delete, search) для устройств (Device)
 2. CRUDS (create, read, update, delete, search) для сценариев (Scenario)
 3. Дополнительные endpoints:
-   - GET /api/devices/{id}/state – получить текущее состояние устройства
+   - POST /api/devices/{id}/state – получить текущее состояние устройства
    - POST /api/scenarios/{id}/execute – выполнить сценарий немедленно
-   - GET /api/rooms – список комнат с устройствами
+   - POST /api/rooms – список комнат с устройствами
    - POST /api/voice – обработка голосовой команды

@@ -1,0 +1,436 @@
+openapi: 3.0.3
+info:
+  title: "Проект автоматизации жилого пространства ${VERSION_APP}"
+  description: Проект "Умный дом с ИИ" представляет собой комплексную систему домашней автоматизации, использующую технологии искусственного интеллекта для адаптивного управления всеми аспектами жилого пространства.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: dev
+    description: устройство
+paths:
+  /dev/create:
+    post:
+      tags:
+        - dev
+      summary: Create dev
+      operationId: devCreate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DevCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DevCreateResponse'
+  /dev/read:
+    post:
+      tags:
+        - dev
+      summary: Read dev
+      operationId: devRead
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DevReadRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DevReadResponse'
+  /dev/update:
+    post:
+      tags:
+        - dev
+      summary: Update dev
+      operationId: devUpdate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DevUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DevUpdateResponse'
+  /dev/delete:
+    post:
+      tags:
+        - dev
+      summary: Delete dev
+      operationId: devDelete
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DevDeleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DevDeleteResponse'
+  /dev/search:
+    post:
+      tags:
+        - dev
+      summary: Search dev
+      operationId: devSearch
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DevSearchRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DevSearchResponse'
+
+components:
+  schemas:
+
+    IRequest:
+      type: object
+      description: Базовый интерфейс для всех запросов
+      properties:
+        requestType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/DevCreateRequest'
+          read:   '#/components/schemas/DevReadRequest'
+          update: '#/components/schemas/DevUpdateRequest'
+          delete: '#/components/schemas/DevDeleteRequest'
+          search: '#/components/schemas/DevSearchRequest'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+
+    IResponse:
+      type: object
+      description: Базовый интерфейс для всех ответов
+      properties:
+        responseType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/DevCreateResponse'
+          read:   '#/components/schemas/DevReadResponse'
+          update: '#/components/schemas/DevUpdateResponse'
+          delete: '#/components/schemas/DevDeleteResponse'
+          search: '#/components/schemas/DevSearchResponse'
+          init: '#/components/schemas/DevInitResponse'
+
+    UUId:
+      type: string
+      description: Универсальный идентификатор
+    AdLock:
+      type: string
+      description: Версия оптимистичной блокировки
+    UserId:
+      type: string
+      description: Идентификатор пользователя
+
+    Device:
+      type: object
+      description: Объект описывает свойства, одинаковые для create и update
+      properties:
+        name:
+          type: string
+          description: Имя устройства
+        deviceType:
+          $ref: '#/components/schemas/DeviceType'
+        roomId:
+          $ref: '#/components/schemas/UUId'
+        deviceStatus:
+          $ref: '#/components/schemas/DeviceStatus'
+        configuration:
+          type: string
+          description: Конфигурация устройства
+        lastSeen:
+          type: string
+          description: Дата последнего обновления устройства
+        manufacturer:
+          type: string
+          description: Производитель устройства
+        model:
+          type: string
+          description: Модель устройства
+        visibility:
+          $ref: '#/components/schemas/DevVisibility'
+
+    DevVisibility:
+      type: string
+      description: 'Тип видимости. Возможные значения: видит только владелец, только зарегистрированный в системе пользователь, видимо всем'
+      enum:
+        - ownerOnly
+        - registeredOnly
+        - public
+
+    DeviceStatus:
+      type: string
+      description: 'Текущий статус'
+      enum:
+        - online
+        - offline
+        - error
+
+    DeviceType:
+      type: string
+      description: 'Тип устройства'
+      enum:
+        - sensor
+        - device
+        - camera
+        - hub
+
+    DevInitResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+
+    DevCreateDevice:
+      allOf:
+        - $ref: '#/components/schemas/Device'
+
+    DevCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/DevRequestDebug'
+        - type: object
+          properties:
+            dev:
+              $ref: '#/components/schemas/DevCreateDevice'
+
+    DevReadDevice:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/UUId'
+
+    DevReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/DevRequestDebug'
+        - type: object
+          properties:
+            dev:
+              $ref: '#/components/schemas/DevReadDevice'
+
+    DevUpdateDevice:
+      allOf:
+        - $ref: '#/components/schemas/Device'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/UUId'
+            lock:
+              $ref: '#/components/schemas/AdLock'
+
+    DevUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/DevRequestDebug'
+        - type: object
+          properties:
+            dev:
+              $ref: '#/components/schemas/DevUpdateDevice'
+
+    DevDeleteDevice:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/UUId'
+            lock:
+              $ref: '#/components/schemas/AdLock'
+
+    DevDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/DevRequestDebug'
+        - type: object
+          properties:
+            dev:
+              $ref: '#/components/schemas/DevDeleteDevice'
+
+    DevSearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка
+        ownerId:
+          $ref: '#/components/schemas/UserId'
+
+
+    DevSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/DevRequestDebug'
+        - type: object
+          properties:
+            adFilter:
+              $ref: '#/components/schemas/DevSearchFilter'
+
+    DevResponseDevice:
+      allOf:
+        - $ref: '#/components/schemas/Device'
+        - type: object
+          description: Объект, который возвращается в ответе бэкенда
+          properties:
+            id:
+              $ref: '#/components/schemas/UUId'
+            lock:
+              $ref: '#/components/schemas/AdLock'
+            permissions:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/DevPermissions'
+
+    DevPermissions:
+      type: string
+      description: Доступы для клиента для операций над объявлением
+      enum:
+        - read
+        - update
+        - delete
+        - makeVisiblePublic
+        - makeVisibleOwn
+        - makeVisibleGroup
+
+    DevResponseSingle:
+      allOf:
+        - type: object
+          description: Ответ с одним объектом объявления
+          properties:
+            dev:
+              $ref: '#/components/schemas/DevResponseDevice'
+
+    DevResponseMulti:
+      allOf:
+        - type: object
+          description: Список найденных объектов
+          properties:
+            ads:
+              type: array
+              items:
+                $ref: '#/components/schemas/DevResponseDevice'
+
+    DevCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/DevResponseSingle'
+
+    DevReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/DevResponseSingle'
+
+    DevUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/DevResponseSingle'
+
+    DevDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/DevResponseSingle'
+
+    DevSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/DevResponseMulti'
+
+    # STUBS ======================
+    DevRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    DevRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/DevDebug'
+
+    DevDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/DevRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/DevRequestDebugStubs'
+
+    DevRequestDebugStubs:
+      type: string
+      description: Перечисления всех стабов
+      enum:
+        - success
+        - notFound
+        - badId
+        - badName
+        - badType
+        - badRoomId
+        - badStatus
+        - badConfiguration
+        - cannotDelete
+        - badSearchString
