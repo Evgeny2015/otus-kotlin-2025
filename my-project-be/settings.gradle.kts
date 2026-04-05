@@ -1,4 +1,4 @@
-rootProject.name = "my-project-be"
+//rootProject.name = "my-project-be"
 
 dependencyResolutionManagement {
     versionCatalogs {
@@ -20,10 +20,14 @@ pluginManagement {
 //    }
 }
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
-}
+//plugins {
+    //id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+//}
 
-//enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-include("my-project-tmp")
+include("my-project-api-v1-jackson")
+include("my-project-api-v1-mappers")
+include("my-project-api-v2-kmp")
+include("my-project-common")
+include("my-project-stubs")
