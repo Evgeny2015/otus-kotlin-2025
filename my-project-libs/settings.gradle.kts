@@ -26,3 +26,5 @@ plugins {
 
 include("my-project-lib-logging-common")
 include("my-project-lib-logging-logback")
+include("my-project-lib-logging-kermit")
+include("my-project-lib-logging-socket")
