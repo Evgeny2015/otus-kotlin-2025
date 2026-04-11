@@ -70,6 +70,10 @@ spring-webflux = { module = "org.springframework.boot:spring-boot-starter-webflu
 spring-webflux-ui = { module = "org.springdoc:springdoc-openapi-starter-webflux-ui", version = "2.3.0" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 
+# Message Queues
+#rabbitmq-client = { module = "com.rabbitmq:amqp-client", version = "5.20.0" }
+kafka-client = { module = "org.apache.kafka:kafka-clients", version = "3.7.0" }
+
 # Testing
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
@@ -84,6 +88,7 @@ kotlin-multiplatform = {id = "org.jetbrains.kotlin.multiplatform", version.ref =
 openapi-generator = { id = "org.openapi.generator", version.ref = "openapi-generator" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 crowdproj-generator = { id = "com.crowdproj.generator", version = "0.4.0" }
+shadowJar = { id = "com.gradleup.shadow", version = "9.3.2" }
 
 # Spring
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
@@ -95,5 +100,6 @@ ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 
 # Docker
 muschko-remote = { id = "com.bmuschko.docker-remote-api", version.ref = "muschko" }
+muschko-java = { id = "com.bmuschko.docker-java-application", version.ref = "muschko" }
 
 [bundles]
