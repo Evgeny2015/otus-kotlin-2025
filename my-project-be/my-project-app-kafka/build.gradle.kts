@@ -27,6 +27,8 @@ dependencies {
     // logic
     implementation(projects.myProjectBl)
 
+    implementation(projects.myProjectStubs)
+
     testImplementation(kotlin("test-junit"))
 }
 

@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.marketplace.app.kafka
+package ru.otus.otuskotlin.myproject.app.kafka
 
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.MockConsumer
@@ -7,16 +7,18 @@ import org.apache.kafka.clients.producer.MockProducer
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringSerializer
 import org.junit.Test
-import ru.otus.otuskotlin.marketplace.api.v1.apiV1RequestSerialize
-import ru.otus.otuskotlin.marketplace.api.v1.apiV1ResponseDeserialize
-import ru.otus.otuskotlin.marketplace.api.v1.models.AdCreateObject
-import ru.otus.otuskotlin.marketplace.api.v1.models.AdCreateRequest
-import ru.otus.otuskotlin.marketplace.api.v1.models.AdCreateResponse
-import ru.otus.otuskotlin.marketplace.api.v1.models.AdDebug
-import ru.otus.otuskotlin.marketplace.api.v1.models.AdRequestDebugMode
-import ru.otus.otuskotlin.marketplace.api.v1.models.AdRequestDebugStubs
-import ru.otus.otuskotlin.marketplace.api.v1.models.AdVisibility
-import ru.otus.otuskotlin.marketplace.api.v1.models.DealSide
+import ru.otus.otuskotlin.myproject.api.v1.apiV1RequestSerialize
+import ru.otus.otuskotlin.myproject.api.v1.apiV1ResponseDeserialize
+import ru.otus.otuskotlin.myproject.api.v1.models.DevCreateDevice
+import ru.otus.otuskotlin.myproject.api.v1.models.DevCreateRequest
+import ru.otus.otuskotlin.myproject.api.v1.models.DevCreateResponse
+import ru.otus.otuskotlin.myproject.api.v1.models.DevDebug
+import ru.otus.otuskotlin.myproject.api.v1.models.DevRequestDebugMode
+import ru.otus.otuskotlin.myproject.api.v1.models.DevRequestDebugStubs
+import ru.otus.otuskotlin.myproject.api.v1.models.DevVisibility
+import ru.otus.otuskotlin.myproject.api.v1.models.DeviceStatus
+import ru.otus.otuskotlin.myproject.api.v1.models.DeviceType
+import ru.otus.otuskotlin.myproject.stubs.DevStub
 import java.util.*
 import kotlin.test.assertEquals
 
@@ -40,16 +42,16 @@ class KafkaControllerTest {
                     0L,
                     "test-1",
                     apiV1RequestSerialize(
-                        AdCreateRequest(
-                            ad = AdCreateObject(
-                                title = "Требуется болт",
-                                description = "some testing ad to check them all",
-                                visibility = AdVisibility.OWNER_ONLY,
-                                adType = DealSide.DEMAND,
+                        DevCreateRequest(
+                            dev = DevCreateDevice(
+                                name = "Требуется болт",
+                                deviceType = DeviceType.DEVICE,
+                                deviceStatus = DeviceStatus.ONLINE,
+                                visibility = DevVisibility.OWNER_ONLY,
                             ),
-                            debug = AdDebug(
-                                mode = AdRequestDebugMode.STUB,
-                                stub = AdRequestDebugStubs.SUCCESS,
+                            debug = DevDebug(
+                                mode = DevRequestDebugMode.STUB,
+                                stub = DevRequestDebugStubs.SUCCESS,
                             ),
                         ),
                     )
@@ -66,9 +68,9 @@ class KafkaControllerTest {
         app.start()
 
         val message = producer.history().first()
-        val result = apiV1ResponseDeserialize<AdCreateResponse>(message.value())
+        val result = apiV1ResponseDeserialize<DevCreateResponse>(message.value())
         assertEquals(outputTopic, message.topic())
-        assertEquals("Требуется болт", result.ad?.title)
+        assertEquals(DevStub.get().name, result.dev?.name)
     }
 
     companion object {

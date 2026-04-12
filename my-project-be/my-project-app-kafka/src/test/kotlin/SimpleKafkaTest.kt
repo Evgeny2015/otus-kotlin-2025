@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.marketplace.app.kafka
+package ru.otus.otuskotlin.myproject.app.kafka
 
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer
