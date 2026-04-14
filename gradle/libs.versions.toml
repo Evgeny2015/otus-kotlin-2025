@@ -82,6 +82,8 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.2.
 
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
 
+cor = { module = "ru.otus.otuskotlin.myproject.libs:my-project-lib-cor" }
+
 [plugins]
 kotlin-jvm = {id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin"}
 kotlin-multiplatform = {id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin"}

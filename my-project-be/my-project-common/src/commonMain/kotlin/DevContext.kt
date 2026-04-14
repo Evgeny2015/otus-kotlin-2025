@@ -9,6 +9,7 @@ data class DevContext(
     var state: DevState = DevState.NONE,
     val errors: MutableList<DevError> = mutableListOf(),
 
+    var corSettings: DevCorSettings = DevCorSettings(),
     var workMode: DevWorkMode = DevWorkMode.PROD,
     var stubCase: DevStubs = DevStubs.NONE,
 
