@@ -6,11 +6,15 @@ gradlePlugin {
     plugins {
         register("build-jvm") {
             id = "build-jvm"
-            implementationClass = "ru.otus.otuskotlin.project.plugin.BuildPluginJvm"
+            implementationClass = "ru.otus.otuskotlin.myproject.plugin.BuildPluginJvm"
         }
         register("build-kmp") {
             id = "build-kmp"
-            implementationClass = "ru.otus.otuskotlin.project.plugin.BuildPluginMultiplatform"
+            implementationClass = "ru.otus.otuskotlin.myproject.plugin.BuildPluginMultiplatform"
+        }
+        register("build-docker") {
+            id = "build-docker"
+            implementationClass = "ru.otus.otuskotlin.myproject.plugin.DockerPlugin"
         }
     }
 }

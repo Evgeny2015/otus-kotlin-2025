@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.project.plugin
+package ru.otus.otuskotlin.myproject.plugin
 
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Plugin
@@ -24,7 +24,7 @@ internal class BuildPluginMultiplatform : Plugin<Project> {
                 configureTargets(this@with)
                 sourceSets.configureEach {
                     languageSettings.apply {
-                        languageVersion = "1.9"
+                        languageVersion = "2.3"
                         progressiveMode = true
                         optIn("kotlin.time.ExperimentalTime")
                     }

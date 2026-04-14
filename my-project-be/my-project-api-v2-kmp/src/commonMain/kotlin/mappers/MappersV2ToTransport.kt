@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.myproject.mappers.v2
+package ru.otus.otuskotlin.myproject.api.v2.mappers
 
 import ru.otus.otuskotlin.myproject.api.v2.models.*
 import ru.otus.otuskotlin.myproject.common.*

@@ -4,7 +4,7 @@ import ru.otus.otuskotlin.myproject.api.v2.models.*
 import ru.otus.otuskotlin.myproject.common.DevContext
 import ru.otus.otuskotlin.myproject.common.models.*
 import ru.otus.otuskotlin.myproject.common.stubs.DevStubs
-import ru.otus.otuskotlin.myproject.mappers.v2.*
+import ru.otus.otuskotlin.myproject.api.v2.mappers.*
 import ru.otus.otuskotlin.myproject.stubs.DevStub
 import kotlin.test.Test
 import kotlin.test.assertEquals

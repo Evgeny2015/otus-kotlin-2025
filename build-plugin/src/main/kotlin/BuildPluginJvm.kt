@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.project.plugin
+package ru.otus.otuskotlin.myproject.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

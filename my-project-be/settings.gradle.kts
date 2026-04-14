@@ -1,5 +1,3 @@
-//rootProject.name = "my-project-be"
-
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
@@ -26,8 +24,14 @@ pluginManagement {
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
+include("my-project-common")
 include("my-project-api-v1-jackson")
 include("my-project-api-v1-mappers")
 include("my-project-api-v2-kmp")
-include("my-project-common")
 include("my-project-stubs")
+include("my-project-api-log")
+include("my-project-bl")
+include("my-project-app-common")
+include("my-project-app-spring")
+include("my-project-app-ktor")
+include("my-project-app-kafka")
