@@ -18,6 +18,12 @@ data class DevContext(
     var devRequest: DevAd = DevAd(),
     var devFilterRequest: DevFilter = DevFilter(),
 
+    var devValidating: DevAd = DevAd(),
+    var devFilterValidating: DevFilter = DevFilter(),
+
+    var devValidated: DevAd = DevAd(),
+    var devFilterValidated: DevFilter = DevFilter(),
+
     var devResponse: DevAd = DevAd(),
     var devsResponse: MutableList<DevAd> = mutableListOf(),
 )

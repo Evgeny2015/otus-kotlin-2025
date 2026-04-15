@@ -69,11 +69,11 @@ class DevUpdateStubTest {
         )
         processor.exec(ctx)
         assertEquals(DevAd(), ctx.devResponse)
-        assertEquals("title", ctx.errors.firstOrNull()?.field)
+        assertEquals("name", ctx.errors.firstOrNull()?.field)
         assertEquals("validation", ctx.errors.firstOrNull()?.group)
     }
     @Test
-    fun badDescription() = runTest {
+    fun badDeviceType() = runTest {
         val ctx = DevContext(
             command = DevCommand.UPDATE,
             state = DevState.NONE,
@@ -88,7 +88,7 @@ class DevUpdateStubTest {
         )
         processor.exec(ctx)
         assertEquals(DevAd(), ctx.devResponse)
-        assertEquals("description", ctx.errors.firstOrNull()?.field)
+        assertEquals("deviceType", ctx.errors.firstOrNull()?.field)
         assertEquals("validation", ctx.errors.firstOrNull()?.group)
     }
 
