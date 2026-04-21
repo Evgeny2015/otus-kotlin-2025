@@ -2,6 +2,7 @@ package ru.otus.otuskotlin.myproject.common
 
 import kotlinx.datetime.Instant
 import ru.otus.otuskotlin.myproject.common.models.*
+import ru.otus.otuskotlin.myproject.common.repo.IRepoDev
 import ru.otus.otuskotlin.myproject.common.stubs.DevStubs
 
 data class DevContext(
@@ -23,6 +24,12 @@ data class DevContext(
 
     var devValidated: DevAd = DevAd(),
     var devFilterValidated: DevFilter = DevFilter(),
+
+    var devRepo: IRepoDev = IRepoDev.NONE,
+    var devRepoRead: DevAd = DevAd(), // То, что прочитали из репозитория
+    var devRepoPrepare: DevAd = DevAd(), // То, что готовим для сохранения в БД
+    var devRepoDone: DevAd = DevAd(),  // Результат, полученный из БД
+    var devsRepoDone: MutableList<DevAd> = mutableListOf(),
 
     var devResponse: DevAd = DevAd(),
     var devsResponse: MutableList<DevAd> = mutableListOf(),

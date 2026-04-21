@@ -3,6 +3,7 @@ package ru.otus.otuskotlin.myproject.common.models
 data class DevFilter(
     var searchString: String = "",
     var ownerId: DevUserId = DevUserId.NONE,
+    var devType: DevType = DevType.NONE
 ) {
     fun deepCopy(): DevFilter = copy()
 

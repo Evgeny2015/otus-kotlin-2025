@@ -4,36 +4,25 @@ plugins {
 
 kotlin {
     sourceSets {
-        all { languageSettings.optIn("kotlin.RequiresOptIn") }
-
-        commonMain {
+        val commonMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-common"))
-
-                implementation(libs.cor)
-
                 implementation(projects.myProjectCommon)
-                implementation(projects.myProjectRepoCommon)
-                implementation(projects.myProjectStubs)
+
+                implementation(libs.coroutines.core)
             }
         }
-        commonTest {
+        val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-
-                api(libs.coroutines.test)
-
-                implementation(projects.myProjectRepoTests)
-                implementation(projects.myProjectRepoInmemory)
             }
         }
-        jvmMain {
+        val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
             }
         }
-        jvmTest {
+        val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
             }

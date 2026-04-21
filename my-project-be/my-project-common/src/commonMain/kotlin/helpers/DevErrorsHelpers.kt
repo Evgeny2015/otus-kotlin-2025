@@ -18,9 +18,14 @@ fun Throwable.asDevError(
 )
 
 inline fun DevContext.addError(vararg error: DevError) = errors.addAll(error)
-
+inline fun DevContext.addErrors(error: Collection<DevError>) = errors.addAll(error)
 inline fun DevContext.fail(error: DevError) {
     addError(error)
+    state = DevState.FAILING
+}
+
+inline fun DevContext.fail(errors: Collection<DevError>) {
+    addErrors(errors)
     state = DevState.FAILING
 }
 
@@ -39,4 +44,16 @@ inline fun errorValidation(
     group = "validation",
     message = "Validation error for field $field: $description",
     level = level,
+)
+
+inline fun errorSystem(
+    violationCode: String,
+    level: LogLevel = LogLevel.ERROR,
+    e: Throwable,
+) = DevError(
+    code = "system-$violationCode",
+    group = "system",
+    message = "System error occurred. Our stuff has been informed, please retry later",
+    level = level,
+    exception = e,
 )
