@@ -15,6 +15,10 @@ data class DevAd(
     var visibility: DeviceVisibility = DeviceVisibility.NONE,
     val permissionsClient: MutableSet<DevPermissionClient> = mutableSetOf(),
 ) {
+    fun deepCopy(): DevAd = copy(
+        permissionsClient = permissionsClient.toMutableSet(),
+    )
+
     fun isEmpty() = this == NONE
 
     companion object {
