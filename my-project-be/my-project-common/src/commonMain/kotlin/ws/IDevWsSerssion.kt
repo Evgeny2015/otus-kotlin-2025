@@ -1,9 +1,9 @@
 package ru.otus.otuskotlin.myproject.common.ws
 
-interface IMkplWsSession {
+interface IDevWsSession {
     suspend fun <T> send(obj: T)
     companion object {
-        val NONE = object : IMkplWsSession {
+        val NONE = object : IDevWsSession {
             override suspend fun <T> send(obj: T) {
 
             }

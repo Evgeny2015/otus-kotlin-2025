@@ -1,15 +1,15 @@
 package ru.otus.otuskotlin.myproject.app.spring.controllers
 
 import org.springframework.web.bind.annotation.*
-import ru.otus.otuskotlin.myproject.app.spring.config.DevAppSettings
 import ru.otus.otuskotlin.myproject.api.v2.mappers.*
 import ru.otus.otuskotlin.myproject.api.v2.models.*
 import ru.otus.otuskotlin.myproject.app.common.controllerHelper
+import ru.otus.otuskotlin.myproject.app.spring.base.DevAppSettings
 import kotlin.reflect.KClass
 
 @Suppress("unused")
 @RestController
-@RequestMapping("v2/ad")
+@RequestMapping("v2/dev")
 class DevControllerV2Fine(private val appSettings: DevAppSettings) {
 
     @PostMapping("create")

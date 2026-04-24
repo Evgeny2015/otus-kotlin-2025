@@ -84,13 +84,15 @@ private fun DevDeleteDevice?.toInternal(): DevAd = if (this != null) {
 
 fun DevContext.fromTransport(request: DevSearchRequest) {
     command = DevCommand.SEARCH
-    devFilterRequest = request.adFilter.toInternal()
+    devFilterRequest = request.devFilter.toInternal()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
 
 private fun DevSearchFilter?.toInternal(): DevFilter = DevFilter(
-    searchString = this?.searchString ?: ""
+    searchString = this?.searchString ?: "",
+    ownerId = this?.ownerId?.let { DevUserId(it) } ?: DevUserId.NONE,
+    devType = this?.devType.fromTransport(),
 )
 
 private fun DevCreateDevice.toInternal(): DevAd = DevAd(

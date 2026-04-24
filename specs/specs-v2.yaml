@@ -317,7 +317,8 @@ components:
           description: Поисковая строка
         ownerId:
           $ref: '#/components/schemas/UserId'
-
+        devType:
+          $ref: '#/components/schemas/DeviceType'
 
     DevSearchRequest:
       allOf:
@@ -325,7 +326,7 @@ components:
         - $ref: '#/components/schemas/DevRequestDebug'
         - type: object
           properties:
-            adFilter:
+            devFilter:
               $ref: '#/components/schemas/DevSearchFilter'
 
     DevResponseDevice:
@@ -368,7 +369,7 @@ components:
         - type: object
           description: Список найденных объектов
           properties:
-            ads:
+            devs:
               type: array
               items:
                 $ref: '#/components/schemas/DevResponseDevice'

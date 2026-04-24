@@ -11,45 +11,56 @@ fun DevContext.toTransport(): IResponse = when (val cmd = command) {
     DevCommand.UPDATE -> toTransportUpdate()
     DevCommand.DELETE -> toTransportDelete()
     DevCommand.SEARCH -> toTransportSearch()
+    DevCommand.INIT -> toTransportInit()
+    DevCommand.FINISH -> object: IResponse {
+        override val responseType: String? = null
+        override val result: ResponseResult? = null
+        override val errors: List<Error>? = null
+    }
     DevCommand.NONE -> throw UnknownDevCommand(cmd)
 }
 
 fun DevContext.toTransportCreate() = DevCreateResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
-    dev = devResponse.toTransport(),
+    dev = devResponse.toTransportDev(),
 )
 
 fun DevContext.toTransportRead() = DevReadResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
-    dev = devResponse.toTransport()
+    dev = devResponse.toTransportDev()
 )
 
 fun DevContext.toTransportUpdate() = DevUpdateResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
-    dev = devResponse.toTransport()
+    dev = devResponse.toTransportDev()
 )
 
 fun DevContext.toTransportDelete() = DevDeleteResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
-    dev = devResponse.toTransport()
+    dev = devResponse.toTransportDev()
 )
 
 fun DevContext.toTransportSearch() = DevSearchResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
-    ads = devsResponse.toTransport()
+    devs = devsResponse.toTransportDev()
 )
 
-fun List<DevAd>.toTransport(): List<DevResponseDevice>? = this
-    .map { it.toTransport() }
+fun DevContext.toTransportInit() = DevInitResponse(
+    result = state.toResult(),
+    errors = errors.toTransportErrors(),
+)
+
+fun List<DevAd>.toTransportDev(): List<DevResponseDevice>? = this
+    .mapNotNull { it.toTransportDev() }
     .toList()
     .takeIf { it.isNotEmpty() }
 
-fun DevAd.toTransport(): DevResponseDevice = DevResponseDevice(
+fun DevAd.toTransportDev(): DevResponseDevice? = DevResponseDevice(
     id = id.toTransport(),
     name = name.takeIf { it.isNotBlank() },
     deviceType = deviceType.toTransport(),
@@ -60,7 +71,7 @@ fun DevAd.toTransport(): DevResponseDevice = DevResponseDevice(
     model = model.takeIf { it.isNotBlank() },
     visibility = visibility.toTransport(),
     permissions = permissionsClient.toTransport(),
-)
+).takeIf { ! this@toTransportDev.isEmpty() }
 
 internal fun DevId.toTransport() = takeIf { it != DevId.NONE }?.asString()
 internal fun DevRoomId.toTransport() = takeIf { it != DevRoomId.NONE }?.asString()

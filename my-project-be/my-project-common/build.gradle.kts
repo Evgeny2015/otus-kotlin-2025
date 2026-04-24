@@ -13,6 +13,8 @@ kotlin {
                 implementation(libs.kotlinx.serialization.core)
                 implementation(libs.kotlinx.serialization.json)
                 api("ru.otus.otuskotlin.myproject.libs:my-project-lib-logging-common")
+//                implementation(projects.myProjectRepoCommon)
+//                implementation(projects.myProjectRepoInmemory)
             }
         }
         commonTest {

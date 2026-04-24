@@ -30,7 +30,7 @@ class DevRepoStub() : IRepoDev {
     }
 
     override suspend fun searchDev(rq: DbDevFilterRequest): IDbDevsResponse {
-        return DbAdsResponseOk(
+        return DbDevsResponseOk(
             data = DevStub.prepareSearchList(filter = "", DevType.DEVICE),
         )
     }

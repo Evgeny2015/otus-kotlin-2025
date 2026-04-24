@@ -66,6 +66,11 @@ kotlin {
                 implementation(projects.myProjectAppCommon)
                 implementation(projects.myProjectBl)
 
+                // DB
+                implementation(projects.myProjectRepoCommon)
+                implementation(projects.myProjectRepoStubs)
+                implementation(projects.myProjectRepoInmemory)
+
                 // v2 api
                 implementation(projects.myProjectApiV2Kmp)
 

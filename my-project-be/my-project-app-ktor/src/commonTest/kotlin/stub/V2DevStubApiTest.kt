@@ -96,7 +96,7 @@ class V2DevStubApiTest {
     fun search() = v2TestApplication(
         func = "search",
         request = DevSearchRequest(
-            adFilter = DevSearchFilter(),
+            devFilter = DevSearchFilter(),
             debug = DevDebug(
                 mode = DevRequestDebugMode.STUB,
                 stub = DevRequestDebugStubs.SUCCESS
@@ -105,7 +105,7 @@ class V2DevStubApiTest {
     ) { response ->
         val responseObj = response.body<DevSearchResponse>()
         assertEquals(200, response.status.value)
-        assertEquals(null, responseObj.ads?.first()?.id)
+        assertEquals(null, responseObj.devs?.first()?.id)
     }
 
     private inline fun <reified T: IRequest> v2TestApplication(

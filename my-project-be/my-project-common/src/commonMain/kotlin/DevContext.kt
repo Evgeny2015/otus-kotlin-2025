@@ -4,6 +4,7 @@ import kotlinx.datetime.Instant
 import ru.otus.otuskotlin.myproject.common.models.*
 import ru.otus.otuskotlin.myproject.common.repo.IRepoDev
 import ru.otus.otuskotlin.myproject.common.stubs.DevStubs
+import ru.otus.otuskotlin.myproject.common.ws.IDevWsSession
 
 data class DevContext(
     var command: DevCommand = DevCommand.NONE,
@@ -13,6 +14,7 @@ data class DevContext(
     var corSettings: DevCorSettings = DevCorSettings(),
     var workMode: DevWorkMode = DevWorkMode.PROD,
     var stubCase: DevStubs = DevStubs.NONE,
+    var wsSession: IDevWsSession = IDevWsSession.NONE,
 
     var requestId: DevRequestId = DevRequestId.NONE,
     var timeStart: Instant = Instant.NONE,

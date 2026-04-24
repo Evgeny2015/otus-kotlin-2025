@@ -17,15 +17,6 @@ object DevStub {
         devDemand("019d59d2-0dd9-7748-9d17-23c773949c90", filter, type),
     )
 
-    fun prepareOffersList(filter: String, type: DevType) = listOf(
-        devSupply("019d59d3-4502-7ef7-be90-237b3314d304", filter, type),
-        devSupply("019d59d3-4ba2-7cfc-ac6a-35a19e0bf5dd", filter, type),
-        devSupply("019d59d3-51ba-7394-a653-010fcfeb10f6", filter, type),
-        devSupply("019d59d3-5892-76f8-bec0-b6e8f8f178cf", filter, type),
-        devSupply("019d59d3-5e32-7e34-87bb-ae7e0da5c085", filter, type),
-        devSupply("019d59d3-64a2-723f-84a0-3d13e00ceb40", filter, type),
-    )
-
     private fun devDemand(id: String, filter: String, type: DevType) =
         devAd(DEV_1, id = id, filter = filter, type = type)
 

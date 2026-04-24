@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.myproject.biz.repo
+package ru.otus.otuskotlin.myproject.bl.repo
 
 import ru.otus.otuskotlin.myproject.bl.exceptions.DevDbNotConfiguredException
 import ru.otus.otuskotlin.myproject.common.DevContext

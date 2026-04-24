@@ -7,7 +7,7 @@ jvm-compiler = "21"
 jvm-language = "21"
 project-group = "ru.otus.otuskotlin"
 openapi-generator = "7.12.0"
-jackson = "2.18.3"
+jackson = "2.21.2"
 
 logback = "1.5.3"
 kotest = "6.0.0.M2"
@@ -15,7 +15,7 @@ kermit = "2.0.3"
 
 #Frameworks
 ktor = "3.4.0"
-spring-boot = "3.4.0"
+spring-boot = "4.0.5"
 
 # Docker
 muschko = "9.4.0"
@@ -38,6 +38,7 @@ uuid = "com.benasher44:uuid:0.8.4"
 
 jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 jackson-datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 
 # Logging
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
@@ -68,8 +69,10 @@ ktor-server-test = { module = "io.ktor:ktor-server-test-host", version.ref = "kt
 # Spring
 spring-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
-spring-webflux-ui = { module = "org.springdoc:springdoc-openapi-starter-webflux-ui", version = "2.3.0" }
+spring-webflux-ui = { module = "org.springdoc:springdoc-openapi-starter-webflux-ui", version = "3.0.2" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-webflux-test = { module = "org.springframework.boot:spring-boot-webflux-test" }
+spring-mockk = "com.ninja-squad:springmockk:5.0.1"
 
 # Message Queues
 #rabbitmq-client = { module = "com.rabbitmq:amqp-client", version = "5.20.0" }
