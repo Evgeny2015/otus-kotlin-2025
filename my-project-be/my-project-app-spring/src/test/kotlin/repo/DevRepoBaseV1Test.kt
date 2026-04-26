@@ -71,12 +71,12 @@ internal abstract class DevRepoBaseV1Test {
     open fun searchDev() = testRepoDev(
         "search",
         DevSearchRequest(
-            devFilter = DevSearchFilter(devType = DeviceType.DEVICE),
+            devFilter = DevSearchFilter(devType = DeviceType.SENSOR),
             debug = debug,
         ),
         DevContext(
             state = DevState.RUNNING,
-            devsResponse = DevStub.prepareSearchList("xx", DevType.DEVICE)
+            devsResponse = DevStub.prepareSearchList("xx", DevType.SENSOR)
                 .onEach { it.permissionsClient.clear() }
                 .sortedBy { it.id.asString() }
                 .toMutableList()
@@ -99,7 +99,7 @@ internal abstract class DevRepoBaseV1Test {
     ) {
         webClient
             .post()
-            .uri("/v1/ws/$url")
+            .uri("/v1/dev/$url")
             .contentType(MediaType.APPLICATION_JSON)
             .body(BodyInserters.fromValue(requestObj))
             .exchange()

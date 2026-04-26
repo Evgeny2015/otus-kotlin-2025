@@ -68,12 +68,12 @@ internal abstract class DevRepoBaseV2Test {
     open fun searchDev() = testRepoDev(
         "search",
         DevSearchRequest(
-            devFilter = DevSearchFilter(devType = DeviceType.DEVICE),
+            devFilter = DevSearchFilter(devType = DeviceType.SENSOR),
             debug = debug,
         ),
         DevContext(
             state = DevState.RUNNING,
-            devsResponse = DevStub.prepareSearchList("xx", DevType.DEVICE)
+            devsResponse = DevStub.prepareSearchList("xx", DevType.SENSOR)
                 .onEach { it.permissionsClient.clear() }
                 .sortedBy { it.id.asString() }
                 .toMutableList()

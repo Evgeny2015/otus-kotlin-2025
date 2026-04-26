@@ -37,12 +37,10 @@ dependencies {
 
 
     // DB
+    implementation(projects.myProjectStubs)
     implementation(projects.myProjectRepoCommon)
     implementation(projects.myProjectRepoStubs)
     implementation(projects.myProjectRepoInmemory)
-
-    testImplementation(projects.myProjectStubs)
-    testImplementation(projects.myProjectRepoCommon)
 
     // tests
     testImplementation(kotlin("test-junit5"))

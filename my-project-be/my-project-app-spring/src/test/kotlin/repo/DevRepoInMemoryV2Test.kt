@@ -37,7 +37,7 @@ internal class DevRepoInMemoryV2Test : DevRepoBaseV2Test() {
         val slotFl = slot<DbDevFilterRequest>()
         val repo = DevRepoInitialized(
             repo = DevRepoInMemory(randomUuid = { uuidNew }),
-            initObjects = DevStub.prepareSearchList("xx", DevType.DEVICE) + DevStub.get()
+            initObjects = DevStub.prepareSearchList("xx", DevType.SENSOR) + DevStub.get()
         )
         coEvery { testTestRepo.createDev(capture(slotAd)) } coAnswers { repo.createDev(slotAd.captured) }
         coEvery { testTestRepo.readDev(capture(slotId)) } coAnswers { repo.readDev(slotId.captured) }

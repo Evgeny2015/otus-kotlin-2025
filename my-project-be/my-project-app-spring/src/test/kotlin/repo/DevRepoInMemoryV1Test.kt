@@ -32,16 +32,16 @@ internal class DevRepoInMemoryV1Test : DevRepoBaseV1Test() {
 
     @BeforeEach
     fun tearUp() {
-        val slotAd = slot<DbDevRequest>()
+        val slotDev = slot<DbDevRequest>()
         val slotId = slot<DbDevIdRequest>()
         val slotFl = slot<DbDevFilterRequest>()
         val repo = DevRepoInitialized(
             repo = DevRepoInMemory(randomUuid = { uuidNew }),
-            initObjects = DevStub.prepareSearchList("xx", DevType.DEVICE) + DevStub.get()
+            initObjects = DevStub.prepareSearchList("xx", DevType.SENSOR) + DevStub.get()
         )
-        coEvery { testTestRepo.createDev(capture(slotAd)) } coAnswers { repo.createDev(slotAd.captured) }
+        coEvery { testTestRepo.createDev(capture(slotDev)) } coAnswers { repo.createDev(slotDev.captured) }
         coEvery { testTestRepo.readDev(capture(slotId)) } coAnswers { repo.readDev(slotId.captured) }
-        coEvery { testTestRepo.updateDev(capture(slotAd)) } coAnswers { repo.updateDev(slotAd.captured) }
+        coEvery { testTestRepo.updateDev(capture(slotDev)) } coAnswers { repo.updateDev(slotDev.captured) }
         coEvery { testTestRepo.deleteDev(capture(slotId)) } coAnswers { repo.deleteDev(slotId.captured) }
         coEvery { testTestRepo.searchDev(capture(slotFl)) } coAnswers { repo.searchDev(slotFl.captured) }
     }

@@ -14,7 +14,7 @@ class DevRepositoryMockTest {
         invokeReadDev = { DbDevResponseOk(DevStub.prepareResult { name = "read" }) },
         invokeUpdateDev = { DbDevResponseOk(DevStub.prepareResult { name = "update" }) },
         invokeDeleteDev = { DbDevResponseOk(DevStub.prepareResult { name = "delete" }) },
-        invokeSearchDev = { DbAdsResponseOk(listOf(DevStub.prepareResult { name = "search" })) },
+        invokeSearchDev = { DbDevsResponseOk(listOf(DevStub.prepareResult { name = "search" })) },
     )
 
     @Test
@@ -48,7 +48,7 @@ class DevRepositoryMockTest {
     @Test
     fun mockSearch() = runTest {
         val result = repo.searchDev(DbDevFilterRequest())
-        assertIs<DbAdsResponseOk>(result)
+        assertIs<DbDevsResponseOk>(result)
         assertEquals("search", result.data.first().name)
     }
 

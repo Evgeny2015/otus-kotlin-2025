@@ -5,7 +5,6 @@ import org.springframework.boot.test.web.server.LocalServerPort
 import ru.otus.otuskotlin.myproject.api.v1.apiV1RequestSerialize
 import ru.otus.otuskotlin.myproject.api.v1.apiV1ResponseDeserialize
 import ru.otus.otuskotlin.myproject.api.v1.models.*
-import ru.otus.otuskotlin.myproject.common.models.DeviceVisibility
 import kotlin.test.Test
 
 

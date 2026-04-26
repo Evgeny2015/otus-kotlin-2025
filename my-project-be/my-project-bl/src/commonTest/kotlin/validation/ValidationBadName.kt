@@ -9,8 +9,6 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
-private val stub = DevStub.get()
-
 fun validationNameCorrect(command: DevCommand, processor: DevProcessor) = runTest {
     val ctx = DevContext(
         command = command,

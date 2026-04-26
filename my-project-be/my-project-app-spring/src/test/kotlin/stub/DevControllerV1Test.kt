@@ -66,6 +66,8 @@ internal class DevControllerV1Test {
         requestObj: Req,
         responseObj: Res,
     ) {
+        println("EXPECTED RESPONSE: $responseObj")
+
         webClient
             .post()
             .uri(url)
@@ -75,7 +77,7 @@ internal class DevControllerV1Test {
             .expectStatus().isOk
             .expectBody(Res::class.java)
             .value {
-                println("RESPONSE: $it")
+                println("ACTUAL RESPONSE: $it")
                 assertThat(it).isEqualTo(responseObj)
             }
     }

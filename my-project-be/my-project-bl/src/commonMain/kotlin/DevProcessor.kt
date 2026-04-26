@@ -13,7 +13,7 @@ import ru.otus.otuskotlin.myproject.cor.chain
 import ru.otus.otuskotlin.myproject.cor.rootChain
 import ru.otus.otuskotlin.myproject.cor.worker
 
-class DevProcessor(val corSettings: DevCorSettings = DevCorSettings.NONE) {
+class DevProcessor(private val corSettings: DevCorSettings = DevCorSettings.NONE) {
     suspend fun exec(ctx: DevContext) = businessChain.exec(ctx.also { it.corSettings = corSettings })
 
     private val businessChain = rootChain<DevContext> {
@@ -137,14 +137,14 @@ class DevProcessor(val corSettings: DevCorSettings = DevCorSettings.NONE) {
                 stubDbError("Имитация ошибки работы с БД")
                 stubNoCase("Ошибка: запрошенный стаб недопустим")
             }
-            repoSearch("Поиск объявления в БД по фильтру")
-            prepareResult("Подготовка ответа")
             validation {
                 worker("Копируем поля в adFilterValidating") { devFilterValidating = devFilterRequest.deepCopy() }
                 validateSearchStringLength("Валидация длины строки поиска в фильтре")
 
                 finishAdFilterValidation("Успешное завершение процедуры валидации")
             }
+            repoSearch("Поиск объявления в БД по фильтру")
+            prepareResult("Подготовка ответа")
         }
     }.build()
 }

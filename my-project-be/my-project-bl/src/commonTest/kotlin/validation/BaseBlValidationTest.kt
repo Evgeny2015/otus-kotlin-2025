@@ -9,7 +9,7 @@ import ru.otus.otuskotlin.myproject.stubs.DevStub
 
 abstract class BaseBlValidationTest {
     protected abstract val command: DevCommand
-    private val settings by lazy { DevCorSettings() }
+    private val settings by lazy { DevCorSettings(repoTest = repo) }
     protected val processor by lazy { DevProcessor(settings) }
 
     private val repo = DevRepoInitialized(
