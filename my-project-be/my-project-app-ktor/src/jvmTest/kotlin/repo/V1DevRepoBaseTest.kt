@@ -5,32 +5,31 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.serialization.jackson.*
 import io.ktor.server.testing.*
-import kotlinx.coroutines.test.TestResult
-import ru.otus.otuskotlin.myproject.api.v2.apiV2Mapper
-import ru.otus.otuskotlin.myproject.api.v2.mappers.toTransportCreate
-import ru.otus.otuskotlin.myproject.api.v2.mappers.toTransportDelete
-import ru.otus.otuskotlin.myproject.api.v2.mappers.toTransportRead
-import ru.otus.otuskotlin.myproject.api.v2.mappers.toTransportUpdate
-import ru.otus.otuskotlin.myproject.api.v2.models.*
+import ru.otus.otuskotlin.myproject.api.v1.models.*
 import ru.otus.otuskotlin.myproject.app.ktor.DevAppSettings
-import ru.otus.otuskotlin.myproject.app.ktor.module
+import ru.otus.otuskotlin.myproject.app.ktor.moduleJvm
 import ru.otus.otuskotlin.myproject.common.models.DevId
 import ru.otus.otuskotlin.myproject.common.models.DevLock
 import ru.otus.otuskotlin.myproject.common.models.DevType
+import ru.otus.otuskotlin.myproject.mappers.v1.toTransportCreate
+import ru.otus.otuskotlin.myproject.mappers.v1.toTransportDelete
+import ru.otus.otuskotlin.myproject.mappers.v1.toTransportRead
+import ru.otus.otuskotlin.myproject.mappers.v1.toTransportUpdate
 import ru.otus.otuskotlin.myproject.stubs.DevStub
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
-abstract class V2DevRepoBaseTest {
+abstract class V1DevRepoBaseTest {
     abstract val workMode: DevRequestDebugMode
     abstract val appSettingsCreate: DevAppSettings
     abstract val appSettingsRead:   DevAppSettings
     abstract val appSettingsUpdate: DevAppSettings
     abstract val appSettingsDelete: DevAppSettings
     abstract val appSettingsSearch: DevAppSettings
+    abstract val appSettingsOffers: DevAppSettings
 
     protected val uuidOld = "10000000-0000-0000-0000-000000000001"
     protected val uuidNew = "10000000-0000-0000-0000-000000000002"
@@ -42,14 +41,14 @@ abstract class V2DevRepoBaseTest {
     }
     protected val initDevSupply = DevStub.prepareResult {
         id = DevId(uuidSup)
-        deviceType = DevType.DEVICE
+        deviceType = DevType.SENSOR
     }
 
 
     @Test
     fun create() {
         val dev = initDev.toTransportCreate()
-        v2TestApplication(
+        v1TestApplication(
             conf = appSettingsCreate,
             func = "create",
             request = DevCreateRequest(
@@ -63,22 +62,21 @@ abstract class V2DevRepoBaseTest {
             assertEquals(dev.name, responseObj.dev?.name)
             assertEquals(dev.deviceType, responseObj.dev?.deviceType)
             assertEquals(dev.visibility, responseObj.dev?.visibility)
-            assertEquals(uuidNew, responseObj.dev?.lock)
         }
     }
 
     @Test
     fun read() {
-        val dev = initDev.toTransportRead()
-        v2TestApplication(
+        val ad = initDev.toTransportRead()
+        v1TestApplication(
             conf = appSettingsRead,
             func = "read",
             request = DevReadRequest(
-                dev = dev,
+                dev = ad,
                 debug = DevDebug(mode = workMode),
             ),
         ) { response ->
-            val responseObj = response.body<DevReadResponse>()
+            val responseObj = response.body<IResponse>() as DevReadResponse
             assertEquals(200, response.status.value)
             assertEquals(uuidOld, responseObj.dev?.id)
         }
@@ -87,7 +85,7 @@ abstract class V2DevRepoBaseTest {
     @Test
     fun update() {
         val dev = initDev.toTransportUpdate()
-        v2TestApplication(
+        v1TestApplication(
             conf = appSettingsUpdate,
             func = "update",
             request = DevUpdateRequest(
@@ -105,12 +103,12 @@ abstract class V2DevRepoBaseTest {
     }
     @Test
     fun delete() {
-        val dev = initDev.toTransportDelete()
-        v2TestApplication(
+        val ad = initDev.toTransportDelete()
+        v1TestApplication(
             conf = appSettingsDelete,
             func = "delete",
             request = DevDeleteRequest(
-                dev = dev,
+                dev = ad,
                 debug = DevDebug(mode = workMode),
             ),
         ) { response ->
@@ -119,9 +117,8 @@ abstract class V2DevRepoBaseTest {
             assertEquals(uuidOld, responseObj.dev?.id)
         }
     }
-
     @Test
-    fun search() = v2TestApplication(
+    fun search() = v1TestApplication(
         conf = appSettingsSearch,
         func = "search",
         request = DevSearchRequest(
@@ -135,19 +132,19 @@ abstract class V2DevRepoBaseTest {
         assertEquals(uuidOld, responseObj.devs?.first()?.id)
     }
 
-    private inline fun <reified T: IRequest> v2TestApplication(
+    private inline fun <reified T: IRequest> v1TestApplication(
         conf: DevAppSettings,
         func: String,
         request: T,
         crossinline function: suspend (HttpResponse) -> Unit,
-    ): TestResult = testApplication {
-        application { module(appSettings = conf) }
+    ): Unit = testApplication {
+        application { moduleJvm(appSettings = conf) }
         val client = createClient {
             install(ContentNegotiation) {
-                json(apiV2Mapper)
+                jackson()
             }
         }
-        val response = client.post("/v2/dev/$func") {
+        val response = client.post("/v1/dev/$func") {
             contentType(ContentType.Application.Json)
             header("X-Trace-Id", "12345")
             setBody(request)

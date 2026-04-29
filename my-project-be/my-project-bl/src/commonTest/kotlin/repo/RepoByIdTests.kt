@@ -39,7 +39,7 @@ fun repoNotFoundTest(command: DevCommand) = runTest {
             name = "xyz",
             deviceType = DevType.DEVICE,
             visibility = DeviceVisibility.VISIBLE_TO_GROUP,
-            lock = DevLock("123"),
+            lock = DevLock("123-lock"),
         ),
     )
     processor.exec(ctx)

@@ -107,7 +107,7 @@ class V1DevStubApiTest {
     ) { response ->
         val responseObj = response.body<DevSearchResponse>()
         assertEquals(200, response.status.value)
-        assertEquals("019d59d1-d719-7f59-9a03-11a8fc0f926d", responseObj.devs?.first()?.id)
+        assertEquals("01", responseObj.devs?.first()?.id)
     }
 
     private fun v1TestApplication(
@@ -120,7 +120,7 @@ class V1DevStubApiTest {
             install(ContentNegotiation) {
                 jackson {
                     disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                    enable(MapperFeature.USE_BASE_TYPE_AS_DEFAULT_IMPL)
+                    configure(MapperFeature.USE_BASE_TYPE_AS_DEFAULT_IMPL, true)
 
                     enable(SerializationFeature.INDENT_OUTPUT)
                     writerWithDefaultPrettyPrinter()

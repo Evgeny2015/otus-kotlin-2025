@@ -3,6 +3,9 @@ package ru.otus.otuskotlin.myproject.backend.repo.tests
 import ru.otus.otuskotlin.myproject.common.models.*
 
 abstract class BaseInitDevs(private val op: String): IInitObjects<DevAd> {
+    open val lockOld: DevLock = DevLock("20000000-0000-0000-0000-000000000001")
+    open val lockBad: DevLock = DevLock("20000000-0000-0000-0000-000000000009")
+
     fun createInitTestModel(
         suf: String,
         ownerId: DevUserId = DevUserId("owner-123"),

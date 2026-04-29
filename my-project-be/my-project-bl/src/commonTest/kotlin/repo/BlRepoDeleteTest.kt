@@ -23,6 +23,7 @@ class BlRepoDeleteTest {
         deviceType = DevType.DEVICE,
         ownerId = userId,
         visibility = DeviceVisibility.VISIBLE_PUBLIC,
+        lock = DevLock("123-lock"),
     )
     private val repo = DevRepositoryMock(
         invokeReadDev = {
@@ -47,15 +48,15 @@ class BlRepoDeleteTest {
 
     @Test
     fun repoDeleteSuccessTest() = runTest {
-        val adToUpdate = DevAd(
+        val devToUpdate = DevAd(
             id = DevId("123"),
-            lock = DevLock("123"),
+            lock = DevLock("123-lock"),
         )
         val ctx = DevContext(
             command = command,
             state = DevState.NONE,
             workMode = DevWorkMode.TEST,
-            devRequest = adToUpdate,
+            devRequest = devToUpdate,
         )
         processor.exec(ctx)
         assertEquals(DevState.FINISHING, ctx.state)

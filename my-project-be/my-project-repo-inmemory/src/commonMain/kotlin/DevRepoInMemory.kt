@@ -6,6 +6,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import ru.otus.otuskotlin.myproject.common.models.*
 import ru.otus.otuskotlin.myproject.common.repo.*
+import ru.otus.otuskotlin.myproject.common.repo.exceptions.RepoEmptyLockException
 import ru.otus.otuskotlin.myproject.repo.common.IRepoDevInitializable
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -29,12 +30,12 @@ class DevRepoInMemory(
 
     override suspend fun createDev(rq: DbDevRequest): IDbDevResponse = tryAdMethod {
         val key = randomUuid()
-        val ad = rq.dev.copy(id = DevId(key))
-        val entity = DevEntity(ad)
+        val dev = rq.dev.copy(id = DevId(key), lock = DevLock(randomUuid()))
+        val entity = DevEntity(dev)
         mutex.withLock {
             cache.put(key, entity)
         }
-        DbDevResponseOk(ad)
+        DbDevResponseOk(dev)
     }
 
     override suspend fun readDev(rq: DbDevIdRequest): IDbDevResponse = tryAdMethod {
@@ -48,16 +49,19 @@ class DevRepoInMemory(
     }
 
     override suspend fun updateDev(rq: DbDevRequest): IDbDevResponse = tryAdMethod {
-        val rqAd = rq.dev
-        val id = rqAd.id.takeIf { it != DevId.NONE } ?: return@tryAdMethod errorEmptyId
+        val rqDev = rq.dev
+        val id = rqDev.id.takeIf { it != DevId.NONE } ?: return@tryAdMethod errorEmptyId
         val key = id.asString()
+        val oldLock = rqDev.lock.takeIf { it != DevLock.NONE } ?: return@tryAdMethod errorEmptyLock(id)
 
         mutex.withLock {
-            val oldAd = cache.get(key)?.toInternal()
+            val oldDev = cache.get(key)?.toInternal()
             when {
-                oldAd == null -> errorNotFound(id)
+                oldDev == null -> errorNotFound(id)
+                oldDev.lock == DevLock.NONE -> errorDb(RepoEmptyLockException(id))
+                oldDev.lock != oldLock -> errorRepoConcurrency(oldDev, oldLock)
                 else -> {
-                    val newAd = rqAd.copy()
+                    val newAd = rqDev.copy(lock = DevLock(randomUuid()))
                     val entity = DevEntity(newAd)
                     cache.put(key, entity)
                     DbDevResponseOk(newAd)
@@ -69,14 +73,17 @@ class DevRepoInMemory(
     override suspend fun deleteDev(rq: DbDevIdRequest): IDbDevResponse = tryAdMethod {
         val id = rq.id.takeIf { it != DevId.NONE } ?: return@tryAdMethod errorEmptyId
         val key = id.asString()
+        val oldLock = rq.lock.takeIf { it != DevLock.NONE } ?: return@tryAdMethod errorEmptyLock(id)
 
         mutex.withLock {
-            val oldAd = cache.get(key)?.toInternal()
+            val oldDev = cache.get(key)?.toInternal()
             when {
-                oldAd == null -> errorNotFound(id)
+                oldDev == null -> errorNotFound(id)
+                oldDev.lock == DevLock.NONE -> errorDb(RepoEmptyLockException(id))
+                oldDev.lock != oldLock -> errorRepoConcurrency(oldDev, oldLock)
                 else -> {
                     cache.invalidate(key)
-                    DbDevResponseOk(oldAd)
+                    DbDevResponseOk(oldDev)
                 }
             }
         }

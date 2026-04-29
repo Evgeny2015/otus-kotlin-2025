@@ -36,7 +36,7 @@ class DevProcessor(private val corSettings: DevCorSettings = DevCorSettings.NONE
                 validateNameHasContent("Проверка символов")
                 validateDeviceTypeNotNone("Проверка на тип устройства")
 
-                finishAdValidation("Завершение проверок")
+                finishDevValidation("Завершение проверок")
             }
             chain {
                 title = "Логика сохранения"
@@ -58,7 +58,7 @@ class DevProcessor(private val corSettings: DevCorSettings = DevCorSettings.NONE
                 validateIdNotEmpty("Проверка на непустой id")
                 validateIdProperFormat("Проверка формата id")
 
-                finishAdValidation("Успешное завершение процедуры валидации")
+                finishDevValidation("Успешное завершение процедуры валидации")
             }
             chain {
                 title = "Логика чтения"
@@ -93,11 +93,12 @@ class DevProcessor(private val corSettings: DevCorSettings = DevCorSettings.NONE
                 validateNameHasContent("Проверка на наличие содержания в заголовке")
                 validateDeviceTypeNotNone("Проверка на тип устройства")
 
-                finishAdValidation("Успешное завершение процедуры валидации")
+                finishDevValidation("Успешное завершение процедуры валидации")
             }
             chain {
                 title = "Логика сохранения"
                 repoRead("Чтение объявления из БД")
+                checkLock("Проверяем консистентность по оптимистичной блокировке")
                 repoPrepareUpdate("Подготовка объекта для обновления")
                 repoUpdate("Обновление объявления в БД")
             }
@@ -120,11 +121,12 @@ class DevProcessor(private val corSettings: DevCorSettings = DevCorSettings.NONE
                 validateIdProperFormat("Проверка формата id")
                 validateLockNotEmpty("Проверка на непустой lock")
                 validateLockProperFormat("Проверка формата lock")
-                finishAdValidation("Успешное завершение процедуры валидации")
+                finishDevValidation("Успешное завершение процедуры валидации")
             }
             chain {
                 title = "Логика удаления"
                 repoRead("Чтение объявления из БД")
+                checkLock("Проверяем консистентность по оптимистичной блокировке")
                 repoPrepareDelete("Подготовка объекта для удаления")
                 repoDelete("Удаление объявления из БД")
             }
@@ -141,7 +143,7 @@ class DevProcessor(private val corSettings: DevCorSettings = DevCorSettings.NONE
                 worker("Копируем поля в adFilterValidating") { devFilterValidating = devFilterRequest.deepCopy() }
                 validateSearchStringLength("Валидация длины строки поиска в фильтре")
 
-                finishAdFilterValidation("Успешное завершение процедуры валидации")
+                finishDevFilterValidation("Успешное завершение процедуры валидации")
             }
             repoSearch("Поиск объявления в БД по фильтру")
             prepareResult("Подготовка ответа")

@@ -26,7 +26,7 @@ internal abstract class DevRepoBaseV2Test {
         prepareCtx(DevStub.prepareResult {
             id = DevId(uuidNew)
             ownerId = DevUserId.NONE
-            lock = DevLock.NONE
+            lock = DevLock(uuidNew)
         })
             .toTransportCreate()
     )
@@ -49,7 +49,10 @@ internal abstract class DevRepoBaseV2Test {
             dev = DevStub.prepareResult { name = "add" }.toTransportUpdate(),
             debug = debug,
         ),
-        prepareCtx(DevStub.prepareResult { name = "add" })
+        prepareCtx(DevStub.prepareResult {
+            name = "add"
+            lock = DevLock(uuidNew)
+        })
             .toTransportUpdate()
     )
 

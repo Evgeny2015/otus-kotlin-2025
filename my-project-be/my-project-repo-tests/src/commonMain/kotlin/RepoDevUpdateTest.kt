@@ -10,7 +10,10 @@ import kotlin.test.assertIs
 abstract class RepoDevUpdateTest {
     abstract val repo: IRepoDev
     protected open val updateSucc = initObjects[0]
+    protected open val updateConc = initObjects[1]
     protected val updateIdNotFound = DevId("repo-update-not-found")
+    protected val lockBad = DevLock("20000000-0000-0000-0000-000000000009")
+    protected val lockNew = DevLock("20000000-0000-0000-0000-000000000002")
 
     private val reqUpdateSucc by lazy {
         DevAd(
@@ -19,6 +22,7 @@ abstract class RepoDevUpdateTest {
             deviceType = DevType.DEVICE,
             ownerId = DevUserId("owner-123"),
             visibility = DeviceVisibility.VISIBLE_TO_GROUP,
+            lock = initObjects.first().lock
         )
     }
     private val reqUpdateNotFound = DevAd(
@@ -27,7 +31,18 @@ abstract class RepoDevUpdateTest {
         deviceType = DevType.DEVICE,
         ownerId = DevUserId("owner-123"),
         visibility = DeviceVisibility.VISIBLE_TO_GROUP,
+        lock = initObjects.first().lock
     )
+    private val reqUpdateConc by lazy {
+        DevAd(
+            id = updateConc.id,
+            name = "update object not found",
+            deviceType = DevType.DEVICE,
+            ownerId = DevUserId("owner-123"),
+            visibility = DeviceVisibility.VISIBLE_TO_GROUP,
+            lock = lockBad,
+        )
+    }
 
     @Test
     fun updateSuccess() = runRepoTest {
@@ -36,6 +51,7 @@ abstract class RepoDevUpdateTest {
         assertEquals(reqUpdateSucc.id, result.data.id)
         assertEquals(reqUpdateSucc.name, result.data.name)
         assertEquals(reqUpdateSucc.deviceType, result.data.deviceType)
+        assertEquals(lockNew, result.data.lock)
     }
 
     @Test
@@ -44,6 +60,15 @@ abstract class RepoDevUpdateTest {
         assertIs<DbDevResponseErr>(result)
         val error = result.errors.find { it.code == "repo-not-found" }
         assertEquals("id", error?.field)
+    }
+
+    fun updateConcurrencyError() = runRepoTest {
+        val result = repo.updateDev(DbDevRequest(reqUpdateConc))
+
+        assertIs<DbDevResponseErrWithData>(result)
+        val error = result.errors.find { it.code == "repo-concurrency" }
+        assertEquals("lock", error?.field)
+        assertEquals(updateConc, result.data)
     }
 
     companion object : BaseInitDevs("update") {

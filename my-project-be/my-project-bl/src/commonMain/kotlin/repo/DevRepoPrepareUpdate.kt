@@ -15,6 +15,7 @@ fun ICorChainDsl<DevContext>.repoPrepareUpdate(title: String) = worker {
             this.name = devValidated.name
             deviceType = devValidated.deviceType
             visibility = devValidated.visibility
+            lock = devValidated.lock
         }
     }
 }

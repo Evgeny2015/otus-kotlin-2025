@@ -19,5 +19,5 @@ data class DbDevResponseErrWithData(
     val data: DevAd,
     val errors: List<DevError> = emptyList()
 ): IDbDevResponse {
-    constructor(ad: DevAd, err: DevError): this(ad, listOf(err))
+    constructor(dev: DevAd, err: DevError): this(dev, listOf(err))
 }

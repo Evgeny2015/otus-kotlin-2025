@@ -21,6 +21,7 @@ class BlRepoUpdateTest {
         deviceType = DevType.DEVICE,
         ownerId = userId,
         visibility = DeviceVisibility.VISIBLE_PUBLIC,
+        lock = DevLock("123-lock")
     )
     private val repo = DevRepositoryMock(
         invokeReadDev = {
@@ -49,7 +50,7 @@ class BlRepoUpdateTest {
             name = "xyz",
             deviceType = DevType.DEVICE,
             visibility = DeviceVisibility.VISIBLE_TO_GROUP,
-            lock = DevLock("123"),
+            lock = DevLock("123-lock"),
         )
         val ctx = DevContext(
             command = command,

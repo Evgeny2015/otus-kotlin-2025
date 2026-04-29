@@ -1,4 +1,5 @@
 [versions]
+dev = "0.0.1"
 kotlin = "2.3.20"
 kotlinx-serialization = "1.8.1"
 coroutines = "1.9.0"
@@ -8,7 +9,6 @@ jvm-language = "21"
 project-group = "ru.otus.otuskotlin"
 openapi-generator = "7.12.0"
 jackson = "2.21.2"
-#jackson = "2.18.3"
 
 logback = "1.5.3"
 kotest = "6.0.0.M2"
@@ -65,6 +65,7 @@ ktor-server-cors = { module = "io.ktor:ktor-server-cors", version.ref = "ktor" }
 ktor-server-yaml = { module = "io.ktor:ktor-server-config-yaml", version.ref = "ktor" }
 ktor-server-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 ktor-server-calllogging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
+ktor-server-websocket = { module = "io.ktor:ktor-server-websockets", version.ref = "ktor" }
 ktor-server-test = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
 
 # Spring
@@ -91,6 +92,8 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.2.
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
 
 cor = { module = "ru.otus.otuskotlin.myproject.libs:my-project-lib-cor" }
+dev-logs-kermit = { module = "ru.otus.otuskotlin.myproject.libs:my-project-lib-logging-kermit", version.ref = "dev" }
+dev-logs-socket = { module = "ru.otus.otuskotlin.myproject.libs:my-project-lib-logging-socket", version.ref = "dev" }
 
 [plugins]
 kotlin-jvm = {id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin"}

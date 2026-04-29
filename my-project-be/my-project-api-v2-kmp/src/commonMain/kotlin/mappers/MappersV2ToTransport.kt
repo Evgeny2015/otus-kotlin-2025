@@ -67,6 +67,7 @@ fun DevAd.toTransport(): DevResponseDevice = DevResponseDevice(
     model = model.takeIf { it.isNotBlank() },
     visibility = visibility.toTransport(),
     permissions = permissionsClient.toTransport(),
+    lock = lock.takeIf { it != DevLock.NONE }?.asString(),
 )
 
 internal fun DevId.toTransport() = takeIf { it != DevId.NONE }?.asString()

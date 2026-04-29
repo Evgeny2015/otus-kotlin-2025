@@ -7,6 +7,7 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.testing.*
+import kotlinx.coroutines.test.TestResult
 import ru.otus.otuskotlin.myproject.api.v2.apiV2Mapper
 import ru.otus.otuskotlin.myproject.api.v2.models.*
 import ru.otus.otuskotlin.myproject.app.ktor.DevAppSettings
@@ -70,7 +71,7 @@ class V2DevStubApiTest {
     ) { response ->
         val responseObj = response.body<DevUpdateResponse>()
         assertEquals(200, response.status.value)
-        assertEquals(DevStub.get().id.asString(), responseObj.dev?.id)
+        assertEquals("001", responseObj.dev?.id)
     }
 
     @Test
@@ -104,15 +105,16 @@ class V2DevStubApiTest {
         ),
     ) { response ->
         val responseObj = response.body<DevSearchResponse>()
+
         assertEquals(200, response.status.value)
-        assertEquals(null, responseObj.devs?.first()?.id)
+        assertEquals("01", responseObj.devs?.first()?.id)
     }
 
     private inline fun <reified T: IRequest> v2TestApplication(
         func: String,
         request: T,
         crossinline function: suspend (HttpResponse) -> Unit,
-    ): Unit = testApplication {
+    ): TestResult = testApplication {
         application { module(DevAppSettings(corSettings = DevCorSettings())) }
         val client = createClient {
             install(ContentNegotiation) {

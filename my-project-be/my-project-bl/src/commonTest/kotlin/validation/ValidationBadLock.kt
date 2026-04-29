@@ -27,7 +27,7 @@ fun validationLockTrim(command: DevCommand, processor: DevProcessor) = runTest {
         state = DevState.NONE,
         workMode = DevWorkMode.TEST,
         devRequest = DevStub.prepareResult {
-            lock = DevLock(" \n\t 123-234-abc-ABC \n\t ")
+            lock = DevLock(" \n\t 123 \n\t ")
         },
     )
     processor.exec(ctx)
