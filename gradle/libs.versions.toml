@@ -9,6 +9,7 @@ jvm-language = "21"
 project-group = "ru.otus.otuskotlin"
 openapi-generator = "7.12.0"
 jackson = "2.21.2"
+cassandra = "4.17.0"
 
 logback = "1.5.3"
 kotest = "6.0.0.M2"
@@ -22,7 +23,7 @@ spring-boot = "4.0.5"
 muschko = "9.4.0"
 
 #Testing
-testcontainers = "1.21.4"
+testcontainers = "2.0.4"
 
 [libraries]
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
@@ -33,6 +34,7 @@ kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+coroutines-jdk9 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk9", version.ref = "coroutines" }
 coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "coroutines" }
 coroutines-reactive = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactive", version.ref = "coroutines" }
 uuid = "com.benasher44:uuid:0.8.4"
@@ -40,6 +42,10 @@ uuid = "com.benasher44:uuid:0.8.4"
 jackson-kotlin = { module = "tools.jackson.module:jackson-module-kotlin", version = "3.1.1" }
 jackson-datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+db-cassandra-core = { module = "com.datastax.oss:java-driver-core", version.ref = "cassandra" }
+db-cassandra-qbuilder = { module = "com.datastax.oss:java-driver-query-builder", version.ref = "cassandra" }
+db-cassandra-kapt = { module = "com.datastax.oss:java-driver-mapper-processor", version.ref = "cassandra" }
+db-cassandra-mapper = { module = "com.datastax.oss:java-driver-mapper-runtime", version.ref = "cassandra" }
 
 # Logging
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
@@ -88,8 +94,8 @@ kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kote
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.2.1" }
-
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+testcontainers-cassandra = { module = "org.testcontainers:testcontainers-cassandra", version.ref = "testcontainers" }
 
 cor = { module = "ru.otus.otuskotlin.myproject.libs:my-project-lib-cor" }
 dev-logs-kermit = { module = "ru.otus.otuskotlin.myproject.libs:my-project-lib-logging-kermit", version.ref = "dev" }
@@ -102,6 +108,7 @@ openapi-generator = { id = "org.openapi.generator", version.ref = "openapi-gener
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 crowdproj-generator = { id = "com.crowdproj.generator", version = "0.4.0" }
 shadowJar = { id = "com.gradleup.shadow", version = "9.3.2" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 
 # Spring
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
@@ -116,3 +123,4 @@ muschko-remote = { id = "com.bmuschko.docker-remote-api", version.ref = "muschko
 muschko-java = { id = "com.bmuschko.docker-java-application", version.ref = "muschko" }
 
 [bundles]
+cassandra = ["db-cassandra-core", "db-cassandra-mapper", "db-cassandra-qbuilder"]
