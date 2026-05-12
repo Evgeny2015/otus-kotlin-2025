@@ -19,3 +19,4 @@ rootProject.name = "otus-kotlin-2025"
 includeBuild("build-plugin")
 includeBuild("my-project-libs")
 includeBuild("my-project-be")
+includeBuild("my-project-other")

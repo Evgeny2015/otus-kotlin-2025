@@ -25,6 +25,7 @@ class DockerPlugin : Plugin<Project> {
                 val suffix = dockerImageName.replace(Regex("[^A-Za-z0-9]+"), "")
 
                 val taskName = "dockerBuild$suffix"
+                val imgName = ext.name.takeIf { it?.isNotBlank() ?: false } ?: project.name
 
                 val taskProvider: TaskProvider<DockerBuildTask> = project.tasks.register(
                     taskName,
@@ -34,7 +35,7 @@ class DockerPlugin : Plugin<Project> {
                     description = "Builds Docker image: $dockerImageName"
 
                     dockerFile.set(ext.dockerFile)
-                    imageName.set("ok-marketplace-app-ktor-$dockerImageName".lowercase())
+                    imageName.set(imgName.lowercase())
                     imageTag.set(ext.imageTag)
                     buildContext.set(ext.buildContext)
                     noCache.set(ext.noCache)

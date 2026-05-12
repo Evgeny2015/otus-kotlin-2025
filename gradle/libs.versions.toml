@@ -10,6 +10,8 @@ project-group = "ru.otus.otuskotlin"
 openapi-generator = "7.12.0"
 jackson = "2.21.2"
 cassandra = "4.17.0"
+liquibase = "4.27.0"
+exposed = "0.50.0"
 
 logback = "1.5.3"
 kotest = "6.0.0.M2"
@@ -109,6 +111,7 @@ kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", vers
 crowdproj-generator = { id = "com.crowdproj.generator", version = "0.4.0" }
 shadowJar = { id = "com.gradleup.shadow", version = "9.3.2" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+liquibase = { id = "org.liquibase.gradle", version = "2.2.2" }
 
 # Spring
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
@@ -121,6 +124,7 @@ ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 # Docker
 muschko-remote = { id = "com.bmuschko.docker-remote-api", version.ref = "muschko" }
 muschko-java = { id = "com.bmuschko.docker-java-application", version.ref = "muschko" }
+palantir-docker = "com.palantir.docker:0.36.0"
 
 [bundles]
 cassandra = ["db-cassandra-core", "db-cassandra-mapper", "db-cassandra-qbuilder"]
