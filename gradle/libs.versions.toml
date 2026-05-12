@@ -127,4 +127,6 @@ muschko-java = { id = "com.bmuschko.docker-java-application", version.ref = "mus
 palantir-docker = "com.palantir.docker:0.36.0"
 
 [bundles]
+#exposed = ["db-exposed-core", "db-exposed-dao", "db-exposed-jdbc"]
 cassandra = ["db-cassandra-core", "db-cassandra-mapper", "db-cassandra-qbuilder"]
+kotest = ["kotest-junit5", "kotest-core", "kotest-property"]
