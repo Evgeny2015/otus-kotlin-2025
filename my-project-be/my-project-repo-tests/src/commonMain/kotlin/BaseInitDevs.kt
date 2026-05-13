@@ -11,7 +11,7 @@ abstract class BaseInitDevs(private val op: String): IInitObjects<DevAd> {
         ownerId: DevUserId = DevUserId("owner-123"),
         devType: DevType = DevType.DEVICE,
     ) = DevAd(
-        id = DevId("ad-repo-$op-$suf"),
+        id = DevId("dev-repo-$op-$suf"),
         name = "$suf stub",
         deviceType = devType,
         ownerId = ownerId,

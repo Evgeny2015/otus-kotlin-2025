@@ -52,7 +52,11 @@ class RepoDevCassandra(
 
     fun clear() = dao.deleteAll()
 
-    override fun save(ads: Collection<DevAd>): Collection<DevAd> = runBlocking { ads.onEach { dao.create(DevCassandraDTO(it)).await() } }
+    override fun save(devs: Collection<DevAd>): Collection<DevAd> = runBlocking {
+        devs.onEach {
+            dao.create(DevCassandraDTO(it)).await()
+        }
+    }
 
     override suspend fun createDev(rq: DbDevRequest): IDbDevResponse = tryDevMethod {
         val new = rq.dev.copy(id = DevId(randomUuid()), lock = DevLock(randomUuid()))
@@ -96,7 +100,7 @@ class RepoDevCassandra(
     override suspend fun deleteDev(rq: DbDevIdRequest): IDbDevResponse = tryDevMethod {
         val idStr = rq.id.asString()
         val prevLock = rq.lock.asString()
-        val oldAd = dao.read(idStr).await()?.toDevModel() ?: return@tryDevMethod errorNotFound(rq.id)
+        val oldDev = dao.read(idStr).await()?.toDevModel() ?: return@tryDevMethod errorNotFound(rq.id)
         val res = dao.delete(idStr, prevLock).await()
         val isSuccess = res.wasApplied()
         val resultField = res.one()
@@ -105,7 +109,7 @@ class RepoDevCassandra(
             ?.takeIf { it.isNotBlank() }
         when {
             // Два варианта почти эквивалентны, выбирайте который вам больше подходит
-            isSuccess -> DbDevResponseOk(oldAd)
+            isSuccess -> DbDevResponseOk(oldDev)
             resultField == null -> errorNotFound(rq.id)
             else -> errorRepoConcurrency(
                 dao.read(idStr).await()?.toDevModel() ?: throw Exception(

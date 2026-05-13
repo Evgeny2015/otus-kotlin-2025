@@ -17,19 +17,19 @@ fun Throwable.asDevError(
     exception = this,
 )
 
-inline fun DevContext.addError(vararg error: DevError) = errors.addAll(error)
-inline fun DevContext.addErrors(error: Collection<DevError>) = errors.addAll(error)
-inline fun DevContext.fail(error: DevError) {
+fun DevContext.addError(vararg error: DevError) = errors.addAll(error)
+fun DevContext.addErrors(error: Collection<DevError>) = errors.addAll(error)
+fun DevContext.fail(error: DevError) {
     addError(error)
     state = DevState.FAILING
 }
 
-inline fun DevContext.fail(errors: Collection<DevError>) {
+fun DevContext.fail(errors: Collection<DevError>) {
     addErrors(errors)
     state = DevState.FAILING
 }
 
-inline fun errorValidation(
+fun errorValidation(
     field: String,
     /**
      * Код, характеризующий ошибку. Не должен включать имя поля или указание на валидацию.
@@ -46,7 +46,7 @@ inline fun errorValidation(
     level = level,
 )
 
-inline fun errorSystem(
+fun errorSystem(
     violationCode: String,
     level: LogLevel = LogLevel.ERROR,
     e: Throwable,

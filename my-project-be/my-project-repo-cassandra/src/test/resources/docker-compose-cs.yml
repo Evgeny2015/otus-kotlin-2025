@@ -31,7 +31,7 @@ services:
       LIQUIBASE_COMMAND_URL: jdbc:cassandra://cassandra:9042/project?ssl=false&compliancemode=Liquibase&localdatacenter=dc1
       LIQUIBASE_COMMAND_USERNAME: cassandra
       LIQUIBASE_COMMAND_PASSWORD: cassandra
-      LIQUIBASE_LIQUIBASE_SCHEMA_NAME: myproject
+      LIQUIBASE_LIQUIBASE_SCHEMA_NAME: project
     depends_on:
       cassandra-init:
         condition: service_completed_successfully

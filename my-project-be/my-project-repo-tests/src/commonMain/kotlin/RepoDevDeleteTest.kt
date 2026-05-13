@@ -12,7 +12,7 @@ abstract class RepoDevDeleteTest {
     abstract val repo: IRepoDev
     protected open val deleteSucc = initObjects[0]
     protected open val deleteConc = initObjects[1]
-    protected open val notFoundId = DevId("ad-repo-delete-notFound")
+    protected open val notFoundId = DevId("dev-repo-delete-notFound")
 
     @Test
     fun deleteSuccess() = runRepoTest {

@@ -25,7 +25,7 @@ abstract class RepoDevSearchTest {
     }
 
     @Test
-    fun searchDealSide() = runRepoTest {
+    fun searchDevice() = runRepoTest {
         val result = repo.searchDev(DbDevFilterRequest(devType = DevType.DEVICE))
         assertIs<DbDevsResponseOk>(result)
         val expected = listOf(initializedObjects[2], initializedObjects[4]).sortedBy { it.id.asString() }
@@ -36,11 +36,11 @@ abstract class RepoDevSearchTest {
 
         val searchOwnerId = DevUserId("owner-124")
         override val initObjects: List<DevAd> = listOf(
-            createInitTestModel("ad1"),
-            createInitTestModel("ad2", ownerId = searchOwnerId),
-            createInitTestModel("ad3", devType = DevType.DEVICE),
-            createInitTestModel("ad4", ownerId = searchOwnerId),
-            createInitTestModel("ad5", devType = DevType.DEVICE),
+            createInitTestModel("dev1"),
+            createInitTestModel("dev2", ownerId = searchOwnerId),
+            createInitTestModel("dev3", devType = DevType.DEVICE),
+            createInitTestModel("dev4", ownerId = searchOwnerId),
+            createInitTestModel("dev5", devType = DevType.DEVICE),
         )
     }
 }
