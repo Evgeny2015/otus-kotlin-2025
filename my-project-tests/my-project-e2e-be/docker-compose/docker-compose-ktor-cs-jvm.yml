@@ -1,6 +1,6 @@
 services:
   app-ktor:
-    image: my-project-app-ktor-jvm:0.0.1
+    image: my-project-app-ktor:0.0.1
     ports:
       - "8080"
     environment:

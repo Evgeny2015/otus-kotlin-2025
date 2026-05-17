@@ -12,12 +12,12 @@ plugins {
 
 docker {
     buildContext = "."
-    imageTag = "${project.version}"
 
     // JVM образ
     images.register("Jvm") {
         buildContext = project.layout.buildDirectory.dir("docker-jvm").get().toString()
         dockerFile = "Dockerfile"
+        imageTag = "${project.version}"
         dependsOnTask = "jvmJar"
     }
 
@@ -25,6 +25,7 @@ docker {
     images.register("LinuxX64") {
         buildContext = project.layout.buildDirectory.dir("docker-linuxx64").get().toString()
         dockerFile = "Dockerfile"
+        imageTag = "${project.version}"
         dependsOnTask = "linkReleaseExecutableLinuxX64"
     }
 }
