@@ -1,9 +1,9 @@
 package ru.otus.otuskotlin.myproject.app.spring.controllers
 
 import org.springframework.web.bind.annotation.*
-import ru.otus.otuskotlin.myproject.app.spring.config.DevAppSettings
 import ru.otus.otuskotlin.myproject.api.v1.models.*
 import ru.otus.otuskotlin.myproject.app.common.controllerHelper
+import ru.otus.otuskotlin.myproject.app.spring.base.DevAppSettings
 import ru.otus.otuskotlin.myproject.mappers.v1.fromTransport
 import ru.otus.otuskotlin.myproject.mappers.v1.toTransport
 import kotlin.reflect.KClass

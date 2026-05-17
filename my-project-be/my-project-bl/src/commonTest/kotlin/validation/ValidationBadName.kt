@@ -9,20 +9,14 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
-private val stub = DevStub.get()
-
 fun validationNameCorrect(command: DevCommand, processor: DevProcessor) = runTest {
     val ctx = DevContext(
         command = command,
         state = DevState.NONE,
         workMode = DevWorkMode.TEST,
-        devRequest = DevAd(
-            id = stub.id,
-            name = "abc",
-            deviceType = DevType.DEVICE,
-            visibility = DeviceVisibility.VISIBLE_PUBLIC,
-            lock = DevLock("123-234-abc-ABC"),
-        ),
+        devRequest = DevStub.prepareResult {
+            name = "abc"
+        }
     )
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
@@ -35,13 +29,9 @@ fun validationNameTrim(command: DevCommand, processor: DevProcessor) = runTest {
         command = command,
         state = DevState.NONE,
         workMode = DevWorkMode.TEST,
-        devRequest = DevAd(
-            id = stub.id,
-            name = " \n\t abc \t\n ",
-            deviceType = DevType.DEVICE,
-            visibility = DeviceVisibility.VISIBLE_PUBLIC,
-            lock = DevLock("123-234-abc-ABC"),
-        ),
+        devRequest = DevStub.prepareResult {
+            name = " \n\t abc \t\n "
+        }
     )
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
@@ -54,13 +44,9 @@ fun validationNameEmpty(command: DevCommand, processor: DevProcessor) = runTest 
         command = command,
         state = DevState.NONE,
         workMode = DevWorkMode.TEST,
-        devRequest = DevAd(
-            id = stub.id,
-            name = "",
-            deviceType = DevType.DEVICE,
-            visibility = DeviceVisibility.VISIBLE_PUBLIC,
-            lock = DevLock("123-234-abc-ABC"),
-        ),
+        devRequest = DevStub.prepareResult {
+            name = ""
+        }
     )
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
@@ -75,13 +61,9 @@ fun validationNameSymbols(command: DevCommand, processor: DevProcessor) = runTes
         command = command,
         state = DevState.NONE,
         workMode = DevWorkMode.TEST,
-        devRequest = DevAd(
-            id = DevId("123"),
-            name = "!@#$%^&*(),.{}",
-            deviceType = DevType.DEVICE,
-            visibility = DeviceVisibility.VISIBLE_PUBLIC,
-            lock = DevLock("123-234-abc-ABC"),
-        ),
+        devRequest = DevStub.prepareResult {
+            name = "!@#\$%^&*(),.{}"
+        }
     )
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)

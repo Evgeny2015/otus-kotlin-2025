@@ -12,6 +12,8 @@ COPY volumes/nginx/nginx.conf /etc/nginx/
 # Expose the port for access
 EXPOSE 8080/tcp
 
+# Не работает: nginx требует права root
+#USER mynginx
 
 # Run the Nginx server
 ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]

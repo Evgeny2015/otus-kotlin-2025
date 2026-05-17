@@ -1,0 +1,25 @@
+rootProject.name = "my-project-tests"
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
+    }
+}
+
+pluginManagement {
+    includeBuild("../build-plugin")
+    plugins {
+        id("build-jvm") apply false
+        id("build-kmp") apply false
+    }
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+//include("my-project-api-v1-jackson")
+//include("my-project-api-v2-kmp")
+include("my-project-e2e-be")

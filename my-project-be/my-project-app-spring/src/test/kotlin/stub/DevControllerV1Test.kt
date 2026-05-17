@@ -2,7 +2,7 @@ package ru.otus.otuskotlin.myproject.app.spring.stub
 
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
+import org.springframework.boot.webflux.test.autoconfigure.WebFluxTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.BodyInserters
@@ -13,9 +13,8 @@ import ru.otus.otuskotlin.myproject.api.v1.models.*
 import ru.otus.otuskotlin.myproject.common.DevContext
 import ru.otus.otuskotlin.myproject.mappers.v1.*
 import ru.otus.otuskotlin.myproject.bl.DevProcessor
-import ru.otus.otuskotlin.myproject.common.models.DevState
-import ru.otus.otuskotlin.myproject.stubs.DevStub
 import org.junit.jupiter.api.Test
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 
 @WebFluxTest(DevControllerV1Fine::class, DevConfig::class)
@@ -23,44 +22,43 @@ internal class DevControllerV1Test {
     @Autowired
     private lateinit var webClient: WebTestClient
 
-    private fun stubContext() = DevContext().apply {
-        state = DevState.RUNNING
-        devResponse = DevStub.get()
-    }
+    @Suppress("unused")
+    @MockitoBean
+    private lateinit var processor: DevProcessor
 
     @Test
-    fun createAd() = testStubDev(
+    fun createDev() = testStubDev(
         "/v1/dev/create",
         DevCreateRequest(),
-        stubContext().toTransportCreate().copy(responseType = "create")
+        DevContext().toTransportCreate().copy(responseType = "create")
     )
 
     @Test
-    fun readAd() = testStubDev(
+    fun readDev() = testStubDev(
         "/v1/dev/read",
         DevReadRequest(),
-        stubContext().toTransportRead().copy(responseType = "read")
+        DevContext().toTransportRead().copy(responseType = "read")
     )
 
     @Test
-    fun updateAd() = testStubDev(
+    fun updateDev() = testStubDev(
         "/v1/dev/update",
         DevUpdateRequest(),
-        stubContext().toTransportUpdate().copy(responseType = "update")
+        DevContext().toTransportUpdate().copy(responseType = "update")
     )
 
     @Test
-    fun deleteAd() = testStubDev(
+    fun deleteDev() = testStubDev(
         "/v1/dev/delete",
         DevDeleteRequest(),
-        stubContext().toTransportDelete().copy(responseType = "delete")
+        DevContext().toTransportDelete().copy(responseType = "delete")
     )
 
     @Test
-    fun searchAd() = testStubDev(
+    fun searchDev() = testStubDev(
         "/v1/dev/search",
         DevSearchRequest(),
-        stubContext().toTransportSearch().copy(responseType = "search")
+        DevContext().toTransportSearch().copy(responseType = "search")
     )
 
     private inline fun <reified Req : Any, reified Res : Any> testStubDev(
@@ -68,6 +66,8 @@ internal class DevControllerV1Test {
         requestObj: Req,
         responseObj: Res,
     ) {
+        println("EXPECTED RESPONSE: $responseObj")
+
         webClient
             .post()
             .uri(url)
@@ -77,7 +77,7 @@ internal class DevControllerV1Test {
             .expectStatus().isOk
             .expectBody(Res::class.java)
             .value {
-                println("RESPONSE: $it")
+                println("ACTUAL RESPONSE: $it")
                 assertThat(it).isEqualTo(responseObj)
             }
     }

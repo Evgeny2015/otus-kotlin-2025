@@ -3,6 +3,7 @@
 package ru.otus.otuskotlin.myproject.api.v2
 
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.otus.otuskotlin.myproject.api.v2.models.IRequest
 import ru.otus.otuskotlin.myproject.api.v2.models.IResponse

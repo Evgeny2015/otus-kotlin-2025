@@ -31,7 +31,15 @@ include("my-project-api-v2-kmp")
 include("my-project-stubs")
 include("my-project-api-log")
 include("my-project-bl")
+
 include("my-project-app-common")
 include("my-project-app-spring")
 include("my-project-app-ktor")
 include("my-project-app-kafka")
+
+// DB
+include("my-project-repo-common")
+include("my-project-repo-tests")
+include("my-project-repo-inmemory")
+include("my-project-repo-stubs")
+include("my-project-repo-cassandra")

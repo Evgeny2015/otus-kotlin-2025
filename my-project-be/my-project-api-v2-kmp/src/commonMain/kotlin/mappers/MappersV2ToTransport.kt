@@ -11,6 +11,8 @@ fun DevContext.toTransport(): IResponse = when (val cmd = command) {
     DevCommand.UPDATE -> toTransportUpdate()
     DevCommand.DELETE -> toTransportDelete()
     DevCommand.SEARCH -> toTransportSearch()
+    DevCommand.INIT -> toTransportInit()
+    DevCommand.FINISH -> throw UnknownDevCommand(cmd)
     DevCommand.NONE -> throw UnknownDevCommand(cmd)
 }
 
@@ -41,7 +43,12 @@ fun DevContext.toTransportDelete() = DevDeleteResponse(
 fun DevContext.toTransportSearch() = DevSearchResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
-    ads = devsResponse.toTransport()
+    devs = devsResponse.toTransport()
+)
+
+fun DevContext.toTransportInit() = DevInitResponse(
+    result = state.toResult(),
+    errors = errors.toTransportErrors(),
 )
 
 fun List<DevAd>.toTransport(): List<DevResponseDevice>? = this
@@ -60,6 +67,7 @@ fun DevAd.toTransport(): DevResponseDevice = DevResponseDevice(
     model = model.takeIf { it.isNotBlank() },
     visibility = visibility.toTransport(),
     permissions = permissionsClient.toTransport(),
+    lock = lock.takeIf { it != DevLock.NONE }?.asString(),
 )
 
 internal fun DevId.toTransport() = takeIf { it != DevId.NONE }?.asString()

@@ -42,8 +42,8 @@ class MapperTest {
                 DevError(
                     code = "err",
                     group = "request",
-                    field = "title",
-                    message = "wrong title",
+                    field = "name",
+                    message = "wrong name",
                 )
             ),
             state = DevState.RUNNING,
@@ -51,11 +51,11 @@ class MapperTest {
 
         val req = context.toTransport() as DevCreateResponse
 
-        assertEquals(req.dev, DevStub.get().toTransport())
+        assertEquals(req.dev, DevStub.get().toTransportDev())
         assertEquals(1, req.errors?.size)
         assertEquals("err", req.errors?.firstOrNull()?.code)
         assertEquals("request", req.errors?.firstOrNull()?.group)
-        assertEquals("title", req.errors?.firstOrNull()?.field)
-        assertEquals("wrong title", req.errors?.firstOrNull()?.message)
+        assertEquals("name", req.errors?.firstOrNull()?.field)
+        assertEquals("wrong name", req.errors?.firstOrNull()?.message)
     }
 }

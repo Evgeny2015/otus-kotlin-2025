@@ -3,7 +3,7 @@ package ru.otus.otuskotlin.myproject.api.v2.mappers
 import ru.otus.otuskotlin.myproject.api.v2.models.*
 import ru.otus.otuskotlin.myproject.common.models.*
 
-fun DevAd.toTransportCreate() = DevCreateDevice(
+fun DevAd.toTransportCreateDev() = DevCreateDevice(
     name = name.takeIf { it.isNotBlank() },
     deviceType = deviceType.toTransport(),
     roomId = roomId.toTransport(),
@@ -14,11 +14,11 @@ fun DevAd.toTransportCreate() = DevCreateDevice(
     visibility = visibility.toTransport(),
 )
 
-fun DevAd.toTransportRead() = DevReadDevice(
+fun DevAd.toTransportReadDev() = DevReadDevice(
     id = id.toTransport()
 )
 
-fun DevAd.toTransportUpdate() = DevUpdateDevice(
+fun DevAd.toTransportUpdateDev() = DevUpdateDevice(
     id = id.toTransport(),
     name = name.takeIf { it.isNotBlank() },
     deviceType = deviceType.toTransport(),
@@ -33,7 +33,7 @@ fun DevAd.toTransportUpdate() = DevUpdateDevice(
 
 internal fun DevLock.toTransport() = takeIf { it != DevLock.NONE }?.asString()
 
-fun DevAd.toTransportDelete() = DevDeleteDevice(
+fun DevAd.toTransportDeleteDev() = DevDeleteDevice(
     id = id.toTransport(),
     lock = lock.toTransport(),
 )

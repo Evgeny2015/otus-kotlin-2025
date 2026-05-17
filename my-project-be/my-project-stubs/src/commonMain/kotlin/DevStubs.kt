@@ -9,8 +9,8 @@ object DevStubs {
             name = "Устройство  №1",
             ownerId = DevUserId("user-1"),
             deviceType = DevType.DEVICE,
-            roomId = DevRoomId("019d59c6-60b1-723b-8a35-c6b721c7a08e"),
-            deviceStatus = DevStatus.ONLINE,
+            roomId = DevRoomId.NONE,
+            deviceStatus = DevStatus.NONE,
             lock = DevLock("123"),
             permissionsClient = mutableSetOf(
                 DevPermissionClient.READ,
