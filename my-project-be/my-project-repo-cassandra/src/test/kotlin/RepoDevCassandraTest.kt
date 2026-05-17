@@ -69,20 +69,19 @@ class CassandraTest {
                 fileDc,
             )
                 .withExposedService(CS_SERVICE, CS_PORT)
-                .withStartupTimeout(Duration.ofMinutes(10))
+                .withStartupTimeout(Duration.ofMinutes(3))
                 .withLogConsumer(CS_SERVICE, logConsumer)
                 .withLogConsumer(MG_SERVICE, logConsumer)
-//                .withLogConsumer(PG_SERVICE, logConsumer)
                 .waitingFor(
                     MG_SERVICE,
-                    Wait.forLogMessage(".*Liquibase command 'update' was executed successfully.*", 1)
-                    //Wait.defaultWaitStrategy().withStartupTimeout(Duration.ofSeconds(5000))
+                    Wait.forLogMessage(".*Liquibase.*update.*success.*", 1)
+                        .withStartupTimeout(Duration.ofMinutes(3))
                 )
         }
 
         fun repository(uuid: String? = null): RepoDevCassandra {
             return RepoDevCassandra(
-                keyspaceName = "myproject",
+                keyspaceName = "project",
                 host = container.getServiceHost(CS_SERVICE, CS_PORT),
                 port = container.getServicePort(CS_SERVICE, CS_PORT),
                 randomUuid = uuid?.let { { uuid } } ?: { uuid4().toString() },
