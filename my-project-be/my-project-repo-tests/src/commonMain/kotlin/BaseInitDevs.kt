@@ -9,12 +9,14 @@ abstract class BaseInitDevs(private val op: String): IInitObjects<DevAd> {
     fun createInitTestModel(
         suf: String,
         ownerId: DevUserId = DevUserId("owner-123"),
-        devType: DevType = DevType.DEVICE,
+        devType: DevType = DevType.NONE,
+        lock: DevLock = lockOld,
     ) = DevAd(
         id = DevId("dev-repo-$op-$suf"),
         name = "$suf stub",
         deviceType = devType,
         ownerId = ownerId,
         visibility = DeviceVisibility.VISIBLE_TO_OWNER,
+        lock = lock
     )
 }

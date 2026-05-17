@@ -2,35 +2,35 @@ import ru.otus.otuskotlin.myproject.backend.repo.tests.*
 import ru.otus.otuskotlin.myproject.repo.common.DevRepoInitialized
 import ru.otus.otuskotlin.myproject.repo.inmemory.DevRepoInMemory
 
-class AdRepoInMemoryCreateTest : RepoDevCreateTest() {
+class DevRepoInMemoryCreateTest : RepoDevCreateTest() {
     override val repo = DevRepoInitialized(
         DevRepoInMemory(randomUuid = { uuidNew.asString() }),
         initObjects = initObjects,
     )
 }
 
-class AdRepoInMemoryDeleteTest : RepoDevDeleteTest() {
+class DevRepoInMemoryDeleteTest : RepoDevDeleteTest() {
     override val repo = DevRepoInitialized(
         DevRepoInMemory(),
         initObjects = initObjects,
     )
 }
 
-class AdRepoInMemoryReadTest : RepoDevReadTest() {
+class DevRepoInMemoryReadTest : RepoDevReadTest() {
     override val repo = DevRepoInitialized(
         DevRepoInMemory(),
         initObjects = initObjects,
     )
 }
 
-class AdRepoInMemorySearchTest : RepoDevSearchTest() {
+class DevRepoInMemorySearchTest : RepoDevSearchTest() {
     override val repo = DevRepoInitialized(
         DevRepoInMemory(),
         initObjects = initObjects,
     )
 }
 
-class AdRepoInMemoryUpdateTest : RepoDevUpdateTest() {
+class DevRepoInMemoryUpdateTest : RepoDevUpdateTest() {
     override val repo = DevRepoInitialized(
         DevRepoInMemory( randomUuid = { lockNew.asString() }),
         initObjects = initObjects,

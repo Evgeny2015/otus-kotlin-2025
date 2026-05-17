@@ -21,14 +21,14 @@ class DevRepoInMemory(
         .expireAfterWrite(ttl)
         .build()
 
-    override fun save(ads: Collection<DevAd>) = ads.map { ad ->
-        val entity = DevEntity(ad)
+    override fun save(devs: Collection<DevAd>) = devs.map { dev ->
+        val entity = DevEntity(dev)
         require(entity.id != null)
         cache.put(entity.id, entity)
-        ad
+        dev
     }
 
-    override suspend fun createDev(rq: DbDevRequest): IDbDevResponse = tryAdMethod {
+    override suspend fun createDev(rq: DbDevRequest): IDbDevResponse = tryDevMethod {
         val key = randomUuid()
         val dev = rq.dev.copy(id = DevId(key), lock = DevLock(randomUuid()))
         val entity = DevEntity(dev)
@@ -38,8 +38,8 @@ class DevRepoInMemory(
         DbDevResponseOk(dev)
     }
 
-    override suspend fun readDev(rq: DbDevIdRequest): IDbDevResponse = tryAdMethod {
-        val key = rq.id.takeIf { it != DevId.NONE }?.asString() ?: return@tryAdMethod errorEmptyId
+    override suspend fun readDev(rq: DbDevIdRequest): IDbDevResponse = tryDevMethod {
+        val key = rq.id.takeIf { it != DevId.NONE }?.asString() ?: return@tryDevMethod errorEmptyId
         mutex.withLock {
             cache.get(key)
                 ?.let {
@@ -48,11 +48,11 @@ class DevRepoInMemory(
         }
     }
 
-    override suspend fun updateDev(rq: DbDevRequest): IDbDevResponse = tryAdMethod {
+    override suspend fun updateDev(rq: DbDevRequest): IDbDevResponse = tryDevMethod {
         val rqDev = rq.dev
-        val id = rqDev.id.takeIf { it != DevId.NONE } ?: return@tryAdMethod errorEmptyId
+        val id = rqDev.id.takeIf { it != DevId.NONE } ?: return@tryDevMethod errorEmptyId
         val key = id.asString()
-        val oldLock = rqDev.lock.takeIf { it != DevLock.NONE } ?: return@tryAdMethod errorEmptyLock(id)
+        val oldLock = rqDev.lock.takeIf { it != DevLock.NONE } ?: return@tryDevMethod errorEmptyLock(id)
 
         mutex.withLock {
             val oldDev = cache.get(key)?.toInternal()
@@ -70,10 +70,10 @@ class DevRepoInMemory(
         }
     }
 
-    override suspend fun deleteDev(rq: DbDevIdRequest): IDbDevResponse = tryAdMethod {
-        val id = rq.id.takeIf { it != DevId.NONE } ?: return@tryAdMethod errorEmptyId
+    override suspend fun deleteDev(rq: DbDevIdRequest): IDbDevResponse = tryDevMethod {
+        val id = rq.id.takeIf { it != DevId.NONE } ?: return@tryDevMethod errorEmptyId
         val key = id.asString()
-        val oldLock = rq.lock.takeIf { it != DevLock.NONE } ?: return@tryAdMethod errorEmptyLock(id)
+        val oldLock = rq.lock.takeIf { it != DevLock.NONE } ?: return@tryDevMethod errorEmptyLock(id)
 
         mutex.withLock {
             val oldDev = cache.get(key)?.toInternal()
@@ -93,7 +93,7 @@ class DevRepoInMemory(
      * Поиск объявлений по фильтру
      * Если в фильтре не установлен какой-либо из параметров - по нему фильтрация не идет
      */
-    override suspend fun searchDev(rq: DbDevFilterRequest): IDbDevsResponse = tryAdsMethod {
+    override suspend fun searchDev(rq: DbDevFilterRequest): IDbDevsResponse = tryDevsMethod {
         val result: List<DevAd> = cache.asMap().asSequence()
             .filter { entry ->
                 rq.ownerId.takeIf { it != DevUserId.NONE }?.let {

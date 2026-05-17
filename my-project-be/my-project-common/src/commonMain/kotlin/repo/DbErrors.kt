@@ -52,7 +52,7 @@ fun errorEmptyLock(id: DevId) = DbDevResponseErr(
         code = "${ru.otus.otuskotlin.myproject.common.repo.ERROR_GROUP_REPO}-lock-empty",
         group = ru.otus.otuskotlin.myproject.common.repo.ERROR_GROUP_REPO,
         field = "lock",
-        message = "Lock for Ad ${id.asString()} is empty that is not admitted"
+        message = "Lock for Dev ${id.asString()} is empty that is not admitted"
     )
 )
 

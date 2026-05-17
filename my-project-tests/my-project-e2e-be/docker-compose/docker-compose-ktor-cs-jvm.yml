@@ -1,6 +1,3 @@
-# Конфигурация для spring + (в перспективе) postgresql
-
-version: '3.9'
 services:
   app-ktor:
     image: my-project-app-ktor-jvm:0.0.1

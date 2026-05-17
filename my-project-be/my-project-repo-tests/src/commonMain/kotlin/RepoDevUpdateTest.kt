@@ -74,6 +74,7 @@ abstract class RepoDevUpdateTest {
     companion object : BaseInitDevs("update") {
         override val initObjects: List<DevAd> = listOf(
             createInitTestModel("update"),
+            createInitTestModel("updateLock"),
         )
     }
 }
