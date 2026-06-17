@@ -4,6 +4,7 @@ import kotlinx.coroutines.test.runTest
 import ru.otus.otuskotlin.myproject.bl.DevProcessor
 import ru.otus.otuskotlin.myproject.common.DevContext
 import ru.otus.otuskotlin.myproject.common.models.*
+import ru.otus.otuskotlin.myproject.stubs.DevStub
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -13,13 +14,7 @@ fun validationLockCorrect(command: DevCommand, processor: DevProcessor) = runTes
         command = command,
         state = DevState.NONE,
         workMode = DevWorkMode.TEST,
-        devRequest = DevAd(
-            id = DevId("123-234-abc-ABC"),
-            name = "abc",
-            deviceType = DevType.DEVICE,
-            visibility = DeviceVisibility.VISIBLE_PUBLIC,
-            lock = DevLock("123-234-abc-ABC"),
-        ),
+        devRequest = DevStub.get(),
     )
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
@@ -31,13 +26,9 @@ fun validationLockTrim(command: DevCommand, processor: DevProcessor) = runTest {
         command = command,
         state = DevState.NONE,
         workMode = DevWorkMode.TEST,
-        devRequest = DevAd(
-            id = DevId("123-234-abc-ABC"),
-            name = "abc",
-            deviceType = DevType.DEVICE,
-            visibility = DeviceVisibility.VISIBLE_PUBLIC,
-            lock = DevLock(" \n\t 123-234-abc-ABC \n\t "),
-        ),
+        devRequest = DevStub.prepareResult {
+            lock = DevLock(" \n\t 123 \n\t ")
+        },
     )
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
@@ -49,13 +40,9 @@ fun validationLockEmpty(command: DevCommand, processor: DevProcessor) = runTest 
         command = command,
         state = DevState.NONE,
         workMode = DevWorkMode.TEST,
-        devRequest = DevAd(
-            id = DevId("123-234-abc-ABC"),
-            name = "abc",
-            deviceType = DevType.DEVICE,
-            visibility = DeviceVisibility.VISIBLE_PUBLIC,
-            lock = DevLock(""),
-        ),
+        devRequest = DevStub.prepareResult {
+            lock = DevLock("")
+        },
     )
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
@@ -70,13 +57,9 @@ fun validationLockFormat(command: DevCommand, processor: DevProcessor) = runTest
         command = command,
         state = DevState.NONE,
         workMode = DevWorkMode.TEST,
-        devRequest = DevAd(
-            id = DevId("123-234-abc-ABC"),
-            name = "abc",
-            deviceType = DevType.DEVICE,
-            visibility = DeviceVisibility.VISIBLE_PUBLIC,
-            lock = DevLock("!@#\$%^&*(),.{}"),
-        ),
+        devRequest = DevStub.prepareResult {
+            lock = DevLock("!@#\$%^&*(),.{}")
+        },
     )
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)

@@ -4,6 +4,7 @@ import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
 import io.ktor.utils.io.readUTF8Line
 import io.ktor.utils.io.core.*
+import io.ktor.utils.io.readLineStrict
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.take
@@ -29,7 +30,7 @@ class SocketLoggerTest {
                         flow<String> {
                             val receiveChannel = socket.openReadChannel()
                             while (true) {
-                                receiveChannel.readUTF8Line(8 * 1024)?.let { emit(it) }
+                                receiveChannel.readLineStrict(8 * 1024)?.let { emit(it) }
                             }
                         }.take(100).collect {
                             println("GOT: $it")

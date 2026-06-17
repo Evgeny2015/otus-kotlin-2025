@@ -5,7 +5,7 @@ import ru.otus.otuskotlin.myproject.common.models.DevState
 import ru.otus.otuskotlin.myproject.cor.ICorChainDsl
 import ru.otus.otuskotlin.myproject.cor.worker
 
-fun ICorChainDsl<DevContext>.finishAdValidation(title: String) = worker {
+fun ICorChainDsl<DevContext>.finishDevValidation(title: String) = worker {
     this.title = title
     on { state == DevState.RUNNING }
     handle {
@@ -13,7 +13,7 @@ fun ICorChainDsl<DevContext>.finishAdValidation(title: String) = worker {
     }
 }
 
-fun ICorChainDsl<DevContext>.finishAdFilterValidation(title: String) = worker {
+fun ICorChainDsl<DevContext>.finishDevFilterValidation(title: String) = worker {
     this.title = title
     on { state == DevState.RUNNING }
     handle {

@@ -32,14 +32,22 @@ dependencies {
     // v2 api
     implementation(projects.myProjectApiV2Kmp)
 
-    // biz
+    // business logic
     implementation(projects.myProjectBl)
+
+
+    // DB
+    implementation(projects.myProjectStubs)
+    implementation(projects.myProjectRepoCommon)
+    implementation(projects.myProjectRepoStubs)
+    implementation(projects.myProjectRepoInmemory)
 
     // tests
     testImplementation(kotlin("test-junit5"))
     testImplementation(libs.spring.test)
     testImplementation(libs.mockito.kotlin)
-    implementation(projects.myProjectStubs)
+    testImplementation(libs.spring.webflux.test)
+    testImplementation(libs.spring.mockk)
 }
 
 tasks {

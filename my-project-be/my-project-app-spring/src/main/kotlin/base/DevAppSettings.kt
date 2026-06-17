@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.myproject.app.spring.config
+package ru.otus.otuskotlin.myproject.app.spring.base
 
 import ru.otus.otuskotlin.myproject.app.common.IDevAppSettings
 import ru.otus.otuskotlin.myproject.bl.DevProcessor

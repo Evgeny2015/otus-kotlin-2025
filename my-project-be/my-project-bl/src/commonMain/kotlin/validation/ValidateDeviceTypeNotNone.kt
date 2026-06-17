@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.myproject.biz.validation
+package ru.otus.otuskotlin.myproject.bl.validation
 
 import ru.otus.otuskotlin.myproject.cor.ICorChainDsl
 import ru.otus.otuskotlin.myproject.cor.worker

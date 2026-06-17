@@ -4,23 +4,20 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import ru.otus.otuskotlin.myproject.plugin.DockerBuildTask
 
 plugins {
-//    alias(libs.plugins.ktor)
-
     alias(libs.plugins.kotlinx.serialization)
     id("build-kmp")
     alias(libs.plugins.shadowJar)
     id("build-docker")
-
 }
 
 docker {
     buildContext = "."
-    imageTag = "${project.version}"
 
     // JVM образ
     images.register("Jvm") {
         buildContext = project.layout.buildDirectory.dir("docker-jvm").get().toString()
         dockerFile = "Dockerfile"
+        imageTag = "${project.version}"
         dependsOnTask = "jvmJar"
     }
 
@@ -28,6 +25,7 @@ docker {
     images.register("LinuxX64") {
         buildContext = project.layout.buildDirectory.dir("docker-linuxx64").get().toString()
         dockerFile = "Dockerfile"
+        imageTag = "${project.version}"
         dependsOnTask = "linkReleaseExecutableLinuxX64"
     }
 }
@@ -57,10 +55,7 @@ kotlin {
                 implementation(libs.ktor.server.negotiation)
                 implementation(libs.ktor.server.headers.response)
                 implementation(libs.ktor.server.headers.caching)
-
-//                // Для того, чтоб получать содержимое запроса более одного раза
-//                В Application.main добавить `install(DoubleReceive)`
-//                implementation("io.ktor:ktor-server-double-receive:${libs.versions.ktor.get()}")
+                implementation(libs.ktor.server.websocket)
 
                 implementation(projects.myProjectCommon)
                 implementation(projects.myProjectAppCommon)
@@ -68,6 +63,11 @@ kotlin {
 
                 // v2 api
                 implementation(projects.myProjectApiV2Kmp)
+
+                // DB
+                implementation(projects.myProjectRepoCommon)
+                implementation(projects.myProjectRepoStubs)
+                implementation(projects.myProjectRepoInmemory)
 
                 // Stubs
                 implementation(projects.myProjectStubs)
@@ -78,10 +78,8 @@ kotlin {
 
                 // logging
                 implementation(projects.myProjectApiLog)
-                implementation(projects.myProjectApiLog)
-
-                implementation("ru.otus.otuskotlin.myproject.libs:my-project-lib-logging-kermit")
-                implementation("ru.otus.otuskotlin.myproject.libs:my-project-lib-logging-socket")
+                implementation(libs.dev.logs.kermit)
+                implementation(libs.dev.logs.socket)
             }
         }
 
@@ -105,7 +103,7 @@ kotlin {
                 implementation(libs.ktor.server.calllogging)
                 implementation(libs.ktor.server.headers.default)
 
-                implementation(libs.ktor.server.tomcat.jakarta)
+//                implementation(libs.ktor.server.tomcat.jakarta)
 
                 implementation(libs.logback)
 
@@ -121,6 +119,7 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
+//                implementation(libs.ktor.server.websocket)
             }
         }
     }

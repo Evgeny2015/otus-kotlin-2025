@@ -26,6 +26,7 @@ class RequestV1SerializationTest {
     @Test
     fun serialize() {
         val json = apiV1Mapper.writeValueAsString(request)
+        val req = DevCreateRequest()
 
         assertContains(json, Regex("\"name\":\\s*\"title\""))
         assertContains(json, Regex("\"mode\":\\s*\"stub\""))

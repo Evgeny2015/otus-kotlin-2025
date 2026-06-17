@@ -17,14 +17,19 @@ fun Throwable.asDevError(
     exception = this,
 )
 
-inline fun DevContext.addError(vararg error: DevError) = errors.addAll(error)
-
-inline fun DevContext.fail(error: DevError) {
+fun DevContext.addError(vararg error: DevError) = errors.addAll(error)
+fun DevContext.addErrors(error: Collection<DevError>) = errors.addAll(error)
+fun DevContext.fail(error: DevError) {
     addError(error)
     state = DevState.FAILING
 }
 
-inline fun errorValidation(
+fun DevContext.fail(errors: Collection<DevError>) {
+    addErrors(errors)
+    state = DevState.FAILING
+}
+
+fun errorValidation(
     field: String,
     /**
      * Код, характеризующий ошибку. Не должен включать имя поля или указание на валидацию.
@@ -39,4 +44,16 @@ inline fun errorValidation(
     group = "validation",
     message = "Validation error for field $field: $description",
     level = level,
+)
+
+fun errorSystem(
+    violationCode: String,
+    level: LogLevel = LogLevel.ERROR,
+    e: Throwable,
+) = DevError(
+    code = "system-$violationCode",
+    group = "system",
+    message = "System error occurred. Our stuff has been informed, please retry later",
+    level = level,
+    exception = e,
 )

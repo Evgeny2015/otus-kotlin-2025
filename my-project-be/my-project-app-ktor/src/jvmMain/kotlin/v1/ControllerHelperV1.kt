@@ -1,8 +1,11 @@
 package ru.otus.otuskotlin.myproject.app.ktor.v1
 
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
+import ru.otus.otuskotlin.myproject.api.v1.apiV1RequestDeserialize
+import ru.otus.otuskotlin.myproject.api.v1.apiV1ResponseSerialize
 import ru.otus.otuskotlin.myproject.api.v1.models.IRequest
 import ru.otus.otuskotlin.myproject.api.v1.models.IResponse
 import ru.otus.otuskotlin.myproject.app.common.controllerHelper
@@ -17,9 +20,18 @@ suspend inline fun <reified Q : IRequest, @Suppress("unused") reified R : IRespo
     logId: String,
 ) = appSettings.controllerHelper(
     {
-        fromTransport(receive<Q>())
+        // Manually deserialize the request body using apiV1Mapper (Jackson)
+        // instead of relying on ContentNegotiation
+        val body = this@processV1.receive<String>()
+        val request = apiV1RequestDeserialize<Q>(body)
+        fromTransport(request)
     },
-    { respond(toTransport()) },
+    {
+        // Manually serialize the response using apiV1Mapper (Jackson)
+        // instead of relying on ContentNegotiation
+        val responseBody = apiV1ResponseSerialize(toTransport())
+        this@processV1.respondText(responseBody, ContentType.Application.Json)
+    },
     clazz,
     logId,
 )

@@ -14,3 +14,5 @@
 .vscode/
 
 **/node_modules/
+
+volumes/

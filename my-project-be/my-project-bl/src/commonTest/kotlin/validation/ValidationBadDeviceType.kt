@@ -16,13 +16,7 @@ fun validationDeviceTypeCorrect(command: DevCommand, processor: DevProcessor) = 
         command = command,
         state = DevState.NONE,
         workMode = DevWorkMode.TEST,
-        devRequest = DevAd(
-            id = stub.id,
-            name = "abc",
-            deviceType = DevType.DEVICE,
-            visibility = DeviceVisibility.VISIBLE_PUBLIC,
-            lock = DevLock("123-234-abc-ABC"),
-        ),
+        devRequest = DevStub.get(),
     )
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
@@ -34,13 +28,9 @@ fun validationDeviceTypeInCorrect(command: DevCommand, processor: DevProcessor) 
         command = command,
         state = DevState.NONE,
         workMode = DevWorkMode.TEST,
-        devRequest = DevAd(
-            id = stub.id,
-            name = "abc",
-            deviceType = DevType.NONE,
-            visibility = DeviceVisibility.VISIBLE_PUBLIC,
-            lock = DevLock("123-234-abc-ABC"),
-        ),
+        devRequest = DevStub.prepareResult {
+            deviceType = DevType.NONE
+        },
     )
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
