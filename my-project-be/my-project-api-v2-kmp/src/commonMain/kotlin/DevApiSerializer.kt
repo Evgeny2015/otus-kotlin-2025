@@ -16,8 +16,8 @@ val apiV2Mapper = Json {
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T : IRequest> apiV2RequestDeserialize(json: String) =
-    apiV2Mapper.decodeFromString<IRequest>(json) as T
+inline fun <reified T : IRequest> apiV2RequestDeserialize(json: String) =
+    apiV2Mapper.decodeFromString<T>(json)
 
 fun apiV2ResponseSerialize(obj: IResponse): String =
     apiV2Mapper.encodeToString(IResponse.serializer(), obj)

@@ -103,6 +103,7 @@ private fun DevCreateDevice.toInternal(): DevAd = DevAd(
     configuration = this.configuration ?: "",
     manufacturer = this.manufacturer ?: "",
     model = this.model ?: "",
+    visibility = this.visibility.fromTransport(),
 )
 
 private fun DevUpdateDevice.toInternal(): DevAd = DevAd(
@@ -114,6 +115,7 @@ private fun DevUpdateDevice.toInternal(): DevAd = DevAd(
     configuration = this.configuration ?: "",
     manufacturer = this.manufacturer ?: "",
     model = this.model ?: "",
+    visibility = this.visibility.fromTransport(),
     lock = lock.toDevLock(),
 )
 

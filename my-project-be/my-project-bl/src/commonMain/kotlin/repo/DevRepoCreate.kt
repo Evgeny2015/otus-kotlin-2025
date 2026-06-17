@@ -12,7 +12,7 @@ import ru.otus.otuskotlin.myproject.cor.worker
 
 fun ICorChainDsl<DevContext>.repoCreate(title: String) = worker {
     this.title = title
-    description = "Добавление объявления в БД"
+    description = "Добавление устройства в БД"
     on { state == DevState.RUNNING }
     handle {
         val request = DbDevRequest(devRepoPrepare)

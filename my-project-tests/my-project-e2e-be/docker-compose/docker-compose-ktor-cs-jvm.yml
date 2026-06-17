@@ -29,10 +29,11 @@ services:
       CASSANDRA_DC: "dc1"
       CASSANDRA_ENDPOINT_SNITCH:  "GossipingPropertyFileSnitch"
     healthcheck:
-      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+      test: ["CMD-SHELL", "cqlsh -u cassandra -p cassandra -e 'SELECT key FROM system.local'"]
       interval: 30s
       timeout: 10s
       retries: 5
+      start_period: 120s
     volumes:
       - ./volumes/cassandra.yaml:/opt/cassandra/conf/cassandra.yaml
 

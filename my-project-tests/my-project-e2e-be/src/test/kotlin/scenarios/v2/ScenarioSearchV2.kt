@@ -37,7 +37,7 @@ abstract class ScenarioSearchV2(
             cObj
         }
 
-        val sObj = DevSearchFilter(searchString = "device")
+        val sObj = DevSearchFilter(searchString = "Device")
         val resSearch = client.sendAndReceive<DevSearchRequest,DevSearchResponse>(
             "dev/search",
             DevSearchRequest(

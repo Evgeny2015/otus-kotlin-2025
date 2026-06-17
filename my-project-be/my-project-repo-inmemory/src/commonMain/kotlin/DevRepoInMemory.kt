@@ -107,7 +107,7 @@ class DevRepoInMemory(
             }
             .filter { entry ->
                 rq.nameFilter.takeIf { it.isNotBlank() }?.let {
-                    entry.value.name?.contains(it) ?: false
+                    entry.value.name?.contains(it, ignoreCase = true) ?: false
                 } ?: true
             }
             .map { it.value.toInternal() }

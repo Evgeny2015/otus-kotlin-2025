@@ -30,11 +30,8 @@ fun Application.module(
         */
         anyHost()
     }
-    // Install ContentNegotiation only if not already installed (e.g., by moduleJvm)
-    if (pluginOrNull(ContentNegotiation) == null) {
-        install(ContentNegotiation) {
-            json(apiV2Mapper)
-        }
+    install(ContentNegotiation) {
+        json(apiV2Mapper)
     }
     install(io.ktor.server.websocket.WebSockets)
 
